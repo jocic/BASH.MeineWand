@@ -38,7 +38,7 @@ if [ "$1" = "1" ]; then # Layer 1
     ufw default deny incoming;
     ufw default deny outgoing;
     
-    ufw allow out on enx0c5b8f279a64 to any port 68 proto udp comment "Regular DHCP";
+    ufw allow out on enp0s3 to any port 68 proto udp comment "Regular DHCP";
     
     ufw allow out on enx0c5b8f279a64 to 109.123.74.101 proto udp comment "TunnelBear (UK)";
     
@@ -48,6 +48,8 @@ if [ "$1" = "1" ]; then # Layer 1
     ufw allow out on tun0 to any port 443 proto tcp comment "HTTPS";
     
 elif [ "$1" = "2" ]; then # Layer 2
+    
+    echo "y" | ufw reset;
     
     ufw enable;
     

@@ -55,6 +55,6 @@ function check_fw
     fi
 }
 
-for i in {0..18}; do
-    sleep 3s && check_fw;
+for i in {1..59}; do
+    echo "$i/59 seconds..." && sleep 1s && check_fw;
 done
