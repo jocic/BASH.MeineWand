@@ -47,6 +47,9 @@ if [ "$1" = "1" ]; then # Layer 1
     
     ufw allow out on tun0 to any port 443 proto tcp comment "HTTPS";
     
+    ufw allow out on tun0 to any port 465 proto tcp comment "SMTP (SSL)"
+    ufw allow out on tun0 to any port 995 proto tcp comment "POP3 (SSL)"
+    
 elif [ "$1" = "2" ]; then # Layer 2
     
     echo "y" | ufw reset;
@@ -64,5 +67,8 @@ elif [ "$1" = "2" ]; then # Layer 2
     ufw allow out on tun0 to 8.8.4.4 port 53 proto udp comment "Google DNS #2";
     
     ufw allow out on tun0 to any port 443 proto tcp comment "HTTPS";
+    
+    ufw allow out on tun0 to any port 465 proto tcp comment "SMTP (SSL)"
+    ufw allow out on tun0 to any port 995 proto tcp comment "POP3 (SSL)"
     
 fi
