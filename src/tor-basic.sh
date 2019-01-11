@@ -29,13 +29,27 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-echo "y" | ufw reset;
+# Step 1 - Enable Firewall
 
-ufw enable;
+printf "[+] Enabling firewall..\n";
+
+echo "y" | ufw reset && ufw enable;
+
+# Step 2 - Disable All Traffic By Default
+
+printf "[+] Disabling all inbound & outbound traffic...\n";
 
 ufw default deny;
 
+# Step 3 -Enabling Logging
+
+printf "[+] Enabling logging...\n";
+
 ufw logging on;
+
+# Step 4 -Enabling Logging
+
+printf "[+] Allowing VPN connection & arbitrary HTTPS connections...\n";
 
 ufw allow out on enx0c5b8f279a64 to 72.35.247.69 proto tcp comment "TunnelBear (DE)";
 ufw allow out on tun0 to any port 443 proto tcp comment "HTTPS";
