@@ -29,14 +29,44 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-function check_fw
-{
-    # Core Variables
+##################
+# Core Variables #
+##################
+
+user_id="$(id -u)";
+fw_status="";
+interfaces="";
+
+#############################
+# Step 1 - Check Privileges #
+#############################
+
+if [ "$user_id" != "0" ]; then
+    printf "Error: You need to run this script with root privileges.\n" && exit;
+fi
+
+###############################
+# Step 2 - Check Dependencies #
+###############################
+
+if [ -z "$(command -v ifconfig)" ]; then
+    printf "Error: Command \"ifconfig\" is missing. Please install \"net-tools\" to your machine.\n" && exit;
+fi
+
+##########################
+# Step 3 - Check Firewal #
+##########################
+
+for i in {1..59}; do
+    
+    # Get Status & Interfaces
     
     fw_status="$(ufw status |  grep -oP '^Status: active')";
     interfaces="$(nmcli d | grep 'connected')";
     
-    # Logic
+    # Turn Off The Interfaces If Needed
+    
+    echo "$i/59 seconds..." && sleep 1s;
     
     if [ -z "$fw_status" ]; then
         
@@ -45,7 +75,7 @@ function check_fw
             interface="$(echo "$interface" | cut -d " " -f 1)";
             
             if [ -n "$interface" ]; then
-                ifconfig "$interface" down;
+                echo "test" #ifconfig "$interface" down;
             fi
             
         done
@@ -53,8 +83,5 @@ function check_fw
         exit;
         
     fi
-}
-
-for i in {1..59}; do
-    echo "$i/59 seconds..." && sleep 1s && check_fw;
+    
 done

@@ -4,6 +4,14 @@
 
 Collection of personal scripts for Firewall management.
 
-**Note #1:** Some of these scripts may only work with my hardware, and some may look seemingly random. Once I upload my entire collection, I will start with polishing & documenting them.
+## Notes
+
+**Note #1:** Some of these scripts may only work with my hardware, and some may look seemingly random. Once I upload my entire collection, I will start polishing & documenting them.
 
 **Note #2:** Also, as I use TunnelBear (it was generally proven to be the best VPN available) you may notice that IP addresses of their servers are used in some scripts ex. the one for creating an Onion-like environment. I'll try to change that in the future and support other VPN providers ex. HMA, NordVPN, etc. BEAR with me for now.
+
+**Note #3:** All scripts are POSIX-compliant.
+
+## Usage
+
+*   [check.sh](src/check.sh) Script is used for checking UFW status every second in a minute. If the UFW is inactive, all network interfaces are immediately shut down to prevent a potential breach. It should be ran by a CRON job.
