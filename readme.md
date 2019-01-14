@@ -14,5 +14,6 @@ Collection of personal scripts for Firewall management.
 
 ## Usage
 
-*   [init.sh](src/init.sh) Script is used for initializing UFW and setting core rules on Ubuntu distribution - denying inbound and outbound traffic except traffic to Google DNS servers and Ubuntu repositories in the United States.
+*   [init-basic.sh](src/init-basic.sh) Basic initialization script will activate UFW, remove existing rules, and set basic rules for Ubuntu distribution - denying inbound and outbound traffic except traffic to Google DNS servers and Ubuntu repositories in the United States. You can pass an interface as a parameter.
+*   [init-advanced.sh](src/init-advanced.sh) Advanced initialization script will do everything as the basic one. In addition it will allow HTTP, HTTPS & Mail-related outbound traffic.
 *   [check.sh](src/check.sh) Script is used for checking UFW status every second in a minute. If the UFW is inactive, all network interfaces are immediately shut down to prevent a potential breach. It should be ran by a CRON job.
