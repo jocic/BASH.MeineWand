@@ -83,8 +83,8 @@ ufw default deny outgoing > /dev/null 2>&1;
 
 printf "[+] Allowing traffic to Google DNS servers...\n";
 
-ufw allow out on "$interface" to "8.8.8.8" comment "Google DNS 1" > /dev/null 2>&1;
-ufw allow out on "$interface" to "8.8.4.4" comment "Google DNS 2" > /dev/null 2>&1;
+ufw allow out on "$interface" to "8.8.8.8" port 53 proto udp comment "Google DNS 1" > /dev/null 2>&1;
+ufw allow out on "$interface" to "8.8.4.4" port 53 proto udp comment "Google DNS 2" > /dev/null 2>&1;
 
 ############################################
 # Step 7 - Allow Traffic To Ubuntu Servers #
@@ -92,5 +92,5 @@ ufw allow out on "$interface" to "8.8.4.4" comment "Google DNS 2" > /dev/null 2>
 
 printf "[+] Allowing traffic to Ubuntu servers...\n";
 
-ufw allow out on "$interface" to "91.189.91.23" comment "Ubuntu Server 1" > /dev/null 2>&1;
-ufw allow out on "$interface" to "91.189.91.26" comment "Ubuntu Server 2" > /dev/null 2>&1;
+ufw allow out on "$interface" to "91.189.91.23" port 80 proto tcp comment "Ubuntu Server 1" > /dev/null 2>&1;
+ufw allow out on "$interface" to "91.189.91.26" port 80 proto tcp comment "Ubuntu Server 2" > /dev/null 2>&1;
