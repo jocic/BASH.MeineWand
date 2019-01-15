@@ -75,7 +75,7 @@ for i in {1..59}; do
             interface="$(echo "$interface" | cut -d " " -f 1)";
             
             if [ -n "$interface" ]; then
-                echo "test" #ifconfig "$interface" down;
+                ifconfig "$interface" down;
             fi
             
         done
