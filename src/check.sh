@@ -62,7 +62,7 @@ for i in {1..59}; do
     # Get Status & Interfaces
     
     fw_status="$(ufw status |  grep -oP '^Status: active')";
-    interfaces="$(nmcli d | grep 'connected')";
+    interfaces="$(nmcli d | egrep 'connected|unmanaged')";
     
     # Turn Off The Interfaces If Needed
     
