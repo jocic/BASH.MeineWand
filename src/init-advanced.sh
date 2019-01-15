@@ -113,5 +113,5 @@ ufw allow out on "$interface" to any port 443 proto udp comment "HTTPS (UDP)" > 
 
 printf "[+] Allowing mail-related traffic...\n";
 
-ufw allow out on "$interface" to any port 465 proto tcp comment "SMTP (SSL)"
-ufw allow out on "$interface" to any port 995 proto tcp comment "POP3 (SSL)"
+ufw allow out on "$interface" to any port 465 proto tcp comment "SMTP (SSL)" > /dev/null 2>&1;
+ufw allow out on "$interface" to any port 995 proto tcp comment "POP3 (SSL)" > /dev/null 2>&1;
