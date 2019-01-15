@@ -29,36 +29,64 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-# Step 1 - Reseting & Enable Firewall
+##################
+# Core Variables #
+##################
 
-printf "[+] Reseting & enabling firewall..\n";
+user_id="$(id -u)";
+interface="$1";
 
-echo "y" | ufw reset && ufw enable;
+#############################
+# Step 1 - Check Privileges #
+#############################
 
-# Step 2 - Deny Incoming & Outgoing Traffic
+if [ "$user_id" != "0" ]; then
+    printf "Error: You need to run this script with root privileges.\n" && exit;
+fi
 
-printf "[+] Denying incoming & outgoing traffic..\n";
+###############################
+# Step 2 - Process Parameters #
+###############################
 
-ufw default deny incoming;
-ufw default deny outgoing;
+if [ -z "$interface" ]; then
+    interface="all";
+fi
 
-# Step 3 - Adding Basic Rules
+###########################
+# Step 3 - Reset Firewall #
+###########################
 
-printf "[+] Adding basic rules..\n";
+printf "[+] Reseting firewall..\n";
 
-ufw allow out on enx0c5b8f279a64 to 109.123.74.101 proto udp comment "TunnelBear (UK)";
+echo "y" | /usr/sbin/ufw reset > /dev/null 2>&1;
 
-#ufw allow out on tun0 to 8.8.8.8 port 53 proto udp comment "Google DNS #1";
-#ufw allow out on tun0 to 8.8.4.4 port 53 proto udp comment "Google DNS #2";
+############################
+# Step 4 - Enable Firewall #
+############################
 
-# Step 4 - Whitelisting GitHub
+printf "[+] Enabling firewall..\n";
+
+ufw enable > /dev/null 2>&1;
+
+###########################################
+# Step 5 - Disable All Traffic By Default #
+###########################################
+
+printf "[+] Disabling all inbound & outbound traffic...\n";
+
+ufw default deny incoming > /dev/null 2>&1;
+ufw default deny outgoing > /dev/null 2>&1;
+
+################################
+# Step 6 - Whitelisting GitHub #
+################################
 
 printf "[+] Whitelisting GitHub..\n";
 
-ufw allow out on tun0 to 140.82.118.3 port 443 comment "GitHub #1";
-ufw allow out on tun0 to 140.82.118.4 port 443 comment "GitHub #2";
+ufw allow out on "$interface" to 140.82.118.3 port 443 comment "GitHub #1" > /dev/null 2>&1;
+ufw allow out on "$interface" to 140.82.118.4 port 443 comment "GitHub #2" > /dev/null 2>&1;
 
-printf "\n# GitHub\n\
+printf "\n# GitHub\n\n\
 140.82.118.3 github.com\n\
 140.82.118.4 github.com\n\
 140.82.118.3 www.github.com\n\
@@ -66,26 +94,30 @@ printf "\n# GitHub\n\
 140.82.118.3 github.githubassets.com\n\
 140.82.118.4 github.githubassets.com\n" >> /etc/hosts;
 
-# Step 4 - Whitelisting Linkedin
+##################################
+# Step 7 - Whitelisting LinkedIn #
+##################################
 
 printf "[+] Whitelisting LinkedIn..\n";
 
-ufw allow out on tun0 to 108.174.10.10 port 443 comment "LinkedIn";
+ufw allow out on "$interface" to 108.174.10.10 port 443 comment "LinkedIn" > /dev/null 2>&1;
 
-printf "\n# LinkedIn\n\
+printf "\n# LinkedIn\n\n\
 108.174.10.10 linkedin.com\n\
 108.174.10.10 www.linkedin.com\n\
 108.174.10.10 static.licdn.com\n\
 108.174.10.10 static.licdn.com\n" >> /etc/hosts;
 
-# Step 4 - Whitelisting Twitter
+#################################
+# Step 8 - Whitelisting Twitter #
+#################################
 
 printf "[+] Whitelisting Twitter..\n";
 
-ufw allow out on tun0 to 104.244.42.65 port 443 comment "Twitter #1";
-ufw allow out on tun0 to 104.244.42.193 port 443 comment "Twitter #2";
+ufw allow out on "$interface" to 104.244.42.65 port 443 comment "Twitter #1" > /dev/null 2>&1;
+ufw allow out on "$interface" to 104.244.42.193 port 443 comment "Twitter #2" > /dev/null 2>&1;
 
-printf "\n# Twitter\n\
+printf "\n# Twitter\n\n\
 104.244.42.65 twitter.com\n\
 104.244.42.193 twitter.com\n\
 104.244.42.65 www.twitter.com\n\
@@ -93,12 +125,14 @@ printf "\n# Twitter\n\
 104.244.42.65 abs.twimg.com\n\
 104.244.42.193 abs.twimg.com\n" >> /etc/hosts;
 
-# Step 5 - Whitelisting Godaddy
+######################################
+# Step 9 - Whitelisting Godaddy (UK) #
+######################################
 
-printf "[+] Whitelisting GoDaddy..\n";
+printf "[+] Whitelisting GoDaddy (UK)..\n";
 
-ufw allow out on tun0 to 92.123.196.192 port 443 comment "GoDaddy";
+ufw allow out on "$interface" to 92.123.196.192 port 443 comment "GoDaddy (UK)" > /dev/null 2>&1;
 
-printf "\n# GoDaddy\n\
+printf "\n# GoDaddy (UK)\n\n\
 92.123.196.192 uk.godaddy.com\n\
 92.123.196.192 uk.godaddy.com\n" >> /etc/hosts;
