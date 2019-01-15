@@ -37,6 +37,7 @@ user_id="$(id -u)";
 network_interface="$1";
 vpn_interface="$2";
 vpn_ip_address="$3";
+vpn_proto="$4";
 
 #############################
 # Step 1 - Check Privileges #
@@ -64,6 +65,10 @@ fi
 
 if [ -z "$vpn_interface" ]; then
     vpn_interface="tun0";
+fi
+
+if [ -z "$vpn_proto" ]; then
+    vpn_proto="udp";
 fi
 
 ###########################
@@ -99,7 +104,7 @@ printf "[+] Defining core rules...\n";
 
 ufw allow out on any to any port 68 proto udp comment "Regular DHCP" > /dev/null 2>&1;
 
-ufw allow out on "$network_interface" to "$vpn_ip_address" proto udp comment "VPN's IP" > /dev/null 2>&1;
+ufw allow out on "$network_interface" to "$vpn_ip_address" port 443 proto "$vpn_proto" comment "VPN's IP" > /dev/null 2>&1;
 
 ufw allow out on "$vpn_interface" to 8.8.8.8 port 53 proto udp comment "Google DNS #1" > /dev/null 2>&1;
 ufw allow out on "$vpn_interface" to 8.8.4.4 port 53 proto udp comment "Google DNS #2" > /dev/null 2>&1;
