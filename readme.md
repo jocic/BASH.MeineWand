@@ -18,7 +18,7 @@ Collection of personal scripts for Firewall management.
 bash ./init-basic.sh all|network-interface
 ```
 
-*   **init-advanced.sh** [UFW](src/ufw/init-advanced.sh) Advanced initialization script will do everything as the basic one. In addition it will allow HTTP, HTTPS & Mail-related outbound traffic.
+*   **init-advanced.sh** [NetFilter](src/nf/init-advanced.sh) [UFW](src/ufw/init-advanced.sh) Advanced initialization script will do everything as the basic one. In addition it will allow HTTP, HTTPS & Mail-related outbound traffic.
 
 ```bash
 bash ./init-advanced.sh all|network-interface
