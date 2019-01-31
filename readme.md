@@ -52,7 +52,7 @@ bash ./sandbox.sh all|network-interface
 
 *   **onion.sh** This script is used for creating an onion-like environment by utilizing 2 or more VPN servers of your desired VPN provider. Number of physical or virtual machines depends on the number layers you selected.
 
-[UFW](src/ufw/onion.sh)
+[NetFilter](src/nf/onion.sh) [UFW](src/ufw/onion.sh)
 
 ```bash
 bash ./sandbox.sh all|network-interface vpn-interface vpn-ip-address
