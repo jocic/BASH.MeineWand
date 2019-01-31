@@ -10,6 +10,8 @@ Collection of personal scripts for Firewall management.
 
 **Note #2:** All scripts are POSIX-compliant.
 
+**Note #3:** You need "pt_conn_track" kernel module to use NetFilter scripts.
+
 ## Cheatsheet
 
 Available general chains:
@@ -37,11 +39,17 @@ Available actions:
 *   MASQUERADE
 *   REDIRECT
 
+Available states:
+
+*   NEW
+*   ESTABLISHED
+*   RELATED
+
 ## General Scripts
 
 *   **init-basic.sh** Basic initialization script will activate UFW, remove existing rules, and set basic rules for Ubuntu distribution - denying inbound and outbound traffic except traffic to Google DNS servers and Ubuntu repositories in the United States. You can pass an interface as a parameter.
 
-[NetFilter](src/nf/init-basic.sh) [UFW](src/ufw/init-basic.sh)
+[NetFilter](src/nf/init-basic.sh) | [UFW](src/ufw/init-basic.sh)
 
 ```bash
 bash ./init-basic.sh {network-interface}
@@ -49,7 +57,7 @@ bash ./init-basic.sh {network-interface}
 
 *   **init-advanced.sh** Advanced initialization script will do everything as the basic one. In addition it will allow HTTP, HTTPS & Mail-related outbound traffic.
 
-[NetFilter](src/nf/init-advanced.sh) [UFW](src/ufw/init-advanced.sh)
+[NetFilter](src/nf/init-advanced.sh) | [UFW](src/ufw/init-advanced.sh)
 
 ```bash
 bash ./init-advanced.sh {network-interface}
@@ -57,7 +65,7 @@ bash ./init-advanced.sh {network-interface}
 
 *   **sandbox.sh** Sandboxing script allows you to create an environment in which only traffic toward specific online services is allowed - Twitter, GitHub, LinkedIn & GoDaddy (UK). All inbound and outbound traffic that isn't related to the mentioned services is blocked, even DNS-related traffic.
 
-[NetFilter](src/nf/sandbox.sh) [UFW](src/ufw/sandbox.sh)
+[NetFilter](src/nf/sandbox.sh) | [UFW](src/ufw/sandbox.sh)
 
 ```bash
 bash ./sandbox.sh {network-interface}
@@ -65,7 +73,7 @@ bash ./sandbox.sh {network-interface}
 
 *   **onion.sh** This script is used for creating an onion-like environment by utilizing 2 or more VPN servers of your desired VPN provider. Number of physical or virtual machines depends on the number layers you selected.
 
-[NetFilter](src/nf/onion.sh) [UFW](src/ufw/onion.sh)
+[NetFilter](src/nf/onion.sh) | [UFW](src/ufw/onion.sh)
 
 ```bash
 bash ./sandbox.sh {network-interface} {vpn-interface} {vpn-ip-address}
