@@ -69,8 +69,8 @@ printf "[+] Disabling all inbound & outbound traffic...\n";
 (iptables -P INPUT DROP && iptables -P OUTPUT DROP) > /dev/null 2>&1;
 (ip6tables -P INPUT DROP && ip6tables -P OUTPUT DROP) > /dev/null 2>&1;
 
-iptables -P INPUT -j ACCEPT -m state --state ESTABLISHED > /dev/null 2>&1;
-ip6tables -P INPUT -j ACCEPT -m state --state ESTABLISHED > /dev/null 2>&1;
+iptables -A INPUT -j ACCEPT -m state --state ESTABLISHED > /dev/null 2>&1;
+ip6tables -A INPUT -j ACCEPT -m state --state ESTABLISHED > /dev/null 2>&1;
 
 ######################################
 # Step 5 - Enable Google DNS Servers #
