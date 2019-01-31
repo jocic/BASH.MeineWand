@@ -12,31 +12,31 @@ Collection of personal scripts for Firewall management.
 
 ## Usage
 
-*   [init-basic.sh](src/init-basic.sh) Basic initialization script will activate UFW, remove existing rules, and set basic rules for Ubuntu distribution - denying inbound and outbound traffic except traffic to Google DNS servers and Ubuntu repositories in the United States. You can pass an interface as a parameter.
+*   **init-basic.sh** [NetFilter](src/nf/init-basic.sh) [UFW](src/ufw/init-basic.sh) Basic initialization script will activate UFW, remove existing rules, and set basic rules for Ubuntu distribution - denying inbound and outbound traffic except traffic to Google DNS servers and Ubuntu repositories in the United States. You can pass an interface as a parameter.
 
 ```bash
 bash ./init-basic.sh all|network-interface
 ```
 
-*   [init-advanced.sh](src/init-advanced.sh) Advanced initialization script will do everything as the basic one. In addition it will allow HTTP, HTTPS & Mail-related outbound traffic.
+*   **init-advanced.sh** [UFW](src/ufw/init-advanced.sh) Advanced initialization script will do everything as the basic one. In addition it will allow HTTP, HTTPS & Mail-related outbound traffic.
 
 ```bash
 bash ./init-advanced.sh all|network-interface
 ```
 
-*   [check.sh](src/check.sh) Script is used for checking UFW status every second in a minute. If the UFW is inactive, all network interfaces are immediately shut down to prevent a potential breach. It should be ran by a CRON job.
+*   **check.sh** [UFW](src/ufw/check.sh) Script is used for checking UFW status every second in a minute. If the UFW is inactive, all network interfaces are immediately shut down to prevent a potential breach. It should be ran by a CRON job.
 
 ```bash
 * * * * * bash /location/to/script/check.sh &
 ```
 
-*   [sandbox.sh](src/sandbox.sh) Sandboxing script allows you to create an environment in which only traffic toward specific online services is allowed - Twitter, GitHub, LinkedIn & GoDaddy (UK). All inbound and outbound traffic that isn't related to the mentioned services is blocked, even DNS-related traffic.
+*   **sandbox.sh** [UFW](src/ufw/sandbox.sh) Sandboxing script allows you to create an environment in which only traffic toward specific online services is allowed - Twitter, GitHub, LinkedIn & GoDaddy (UK). All inbound and outbound traffic that isn't related to the mentioned services is blocked, even DNS-related traffic.
 
 ```bash
 bash ./sandbox.sh all|network-interface
 ```
 
-*   [onion.sh](src/onion.sh) This script is used for creating an onion-like environment by utilizing 2 or more VPN servers of your desired VPN provider. Number of physical or virtual machines depends on the number layers you selected.
+*   **onion.sh** [UFW](src/ufw/onion.sh) This script is used for creating an onion-like environment by utilizing 2 or more VPN servers of your desired VPN provider. Number of physical or virtual machines depends on the number layers you selected.
 
 ```bash
 bash ./sandbox.sh all|network-interface vpn-interface vpn-ip-address
