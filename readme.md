@@ -24,6 +24,19 @@ Available NAT chains:
 *   POSTROUTING
 *   OUTPUT
 
+Available actions:
+
+*   ACCEPT
+*   REJECT
+*   DROP
+*   LOG
+*   ULOG
+*   RETURN
+*   SNAT
+*   DNAT
+*   MASQUERADE
+*   REDIRECT
+
 ## General Scripts
 
 *   **init-basic.sh** Basic initialization script will activate UFW, remove existing rules, and set basic rules for Ubuntu distribution - denying inbound and outbound traffic except traffic to Google DNS servers and Ubuntu repositories in the United States. You can pass an interface as a parameter.
@@ -31,7 +44,7 @@ Available NAT chains:
 [NetFilter](src/nf/init-basic.sh) [UFW](src/ufw/init-basic.sh)
 
 ```bash
-bash ./init-basic.sh all|network-interface
+bash ./init-basic.sh {network-interface}
 ```
 
 *   **init-advanced.sh** Advanced initialization script will do everything as the basic one. In addition it will allow HTTP, HTTPS & Mail-related outbound traffic.
@@ -39,7 +52,7 @@ bash ./init-basic.sh all|network-interface
 [NetFilter](src/nf/init-advanced.sh) [UFW](src/ufw/init-advanced.sh)
 
 ```bash
-bash ./init-advanced.sh all|network-interface
+bash ./init-advanced.sh {network-interface}
 ```
 
 *   **sandbox.sh** Sandboxing script allows you to create an environment in which only traffic toward specific online services is allowed - Twitter, GitHub, LinkedIn & GoDaddy (UK). All inbound and outbound traffic that isn't related to the mentioned services is blocked, even DNS-related traffic.
@@ -47,7 +60,7 @@ bash ./init-advanced.sh all|network-interface
 [NetFilter](src/nf/sandbox.sh) [UFW](src/ufw/sandbox.sh)
 
 ```bash
-bash ./sandbox.sh all|network-interface
+bash ./sandbox.sh {network-interface}
 ```
 
 *   **onion.sh** This script is used for creating an onion-like environment by utilizing 2 or more VPN servers of your desired VPN provider. Number of physical or virtual machines depends on the number layers you selected.
@@ -55,7 +68,7 @@ bash ./sandbox.sh all|network-interface
 [NetFilter](src/nf/onion.sh) [UFW](src/ufw/onion.sh)
 
 ```bash
-bash ./sandbox.sh all|network-interface vpn-interface vpn-ip-address
+bash ./sandbox.sh {network-interface} {vpn-interface} {vpn-ip-address}
 ```
 
 ## UFW Scripts

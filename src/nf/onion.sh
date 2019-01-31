@@ -60,7 +60,7 @@ fi
 ###############################
 
 if [ -z "$network_interface" ]; then
-    network_interface="all";
+    network_interface="any";
 fi
 
 if [ -z "$vpn_interface" ]; then

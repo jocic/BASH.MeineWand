@@ -49,7 +49,7 @@ fi
 ###############################
 
 if [ -z "$interface" ]; then
-    interface="all";
+    interface="any";
 fi
 
 ###########################
