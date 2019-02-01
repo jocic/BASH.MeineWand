@@ -2,7 +2,18 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b33d8a0308ee4f15b187a06c614cbd82)](https://www.codacy.com/app/jocic/BASH.MeineWand?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jocic/BASH.MeineWand&amp;utm_campaign=Badge_Grade) [![License](https://poser.pugx.org/jocic/google-authenticator/license)](https://packagist.org/packages/jocic/google-authenticator)
 
-Collection of personal scripts for Firewall management.
+Meine Wand was originally a collection of my personal scripts for Firewall management on Debian and Debian-based Linux distributions, but it evolved into a script that can be used for Firewall configuration, incident logging, etc.
+
+**Project is still under development...slow ride...take it easy...**
+
+![Help Example](img/help.png)
+
+Script has been tested on the following distributions:
+
+*   Ubuntu 18.04
+*   Debian 9.5
+
+[![Buy Me Coffee](img/buy-me-coffee.png)](https://www.paypal.me/DjordjeJocic)
 
 ## Notes
 
