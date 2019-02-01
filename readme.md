@@ -56,7 +56,11 @@ Available states:
 *   ESTABLISHED
 *   RELATED
 
-## General Scripts
+## Scripts
+
+**Note:** These will be removed soon.
+
+### General Scripts
 
 *   **init-basic.sh** Basic initialization script will activate UFW, remove existing rules, and set basic rules for Ubuntu distribution - denying inbound and outbound traffic except traffic to Google DNS servers and Ubuntu repositories in the United States. You can pass an interface as a parameter.
 
@@ -90,7 +94,7 @@ bash ./sandbox.sh {network-interface}
 bash ./sandbox.sh {network-interface} {vpn-interface} {vpn-ip-address}
 ```
 
-## UFW Scripts
+### UFW Scripts
 
 *   **check.sh** Script is used for checking UFW status every second in a minute. If the UFW is inactive, all network interfaces are immediately shut down to prevent a potential breach. It should be ran by a CRON job.
 
@@ -99,3 +103,61 @@ bash ./sandbox.sh {network-interface} {vpn-interface} {vpn-ip-address}
 ```bash
 * * * * * bash /location/to/script/check.sh &
 ```
+
+## Alias
+
+If you plan to use the script everyday, you should probably create an alias.
+
+### Temporary Alias
+
+```bash
+alias meine-wand="/path/to/your/folder/meine-wand.sh"
+```
+
+### Permanent Alias
+
+```bash
+echo alias meine-wand="/path/to/your/folder/meine-wand.sh" >> ~/.bash_aliases
+```
+
+## Installation
+
+Alternatively, you can add my personal APT repository to your machine and install **Meine Wand** like you would anything else.
+
+Add the repository.
+
+```bash
+wget -nc https://www.djordjejocic.com/files/apt/Release.key
+sudo apt-key add Release.key
+sudo echo "deb http://apt.djordjejocic.com general main" >> "/etc/apt/sources.list"
+sudo apt-get update
+```
+
+Install project.
+
+```bash
+sudo apt-get install meine-wand
+```
+
+## Contribution
+
+Please review the following documents if you are planning to contribute to the project:
+
+*   [Contributor Covenant Code of Conduct](code-of-conduct.md)
+*   [Contribution Guidelines](contributing.md)
+*   [Pull Request Template](pull-request-template.md)
+*   [MIT License](license.md)
+
+## Support
+
+Please don't hessitate to contact me if you have any questions, ideas, or concerns.
+
+My Twitter account is: [@jocic_91](https://www.twitter.com/jocic_91)
+
+My support E-Mail address is: [support@djordjejocic.com](mailto:support@djordjejocic.com)
+
+## Copyright & License
+
+Copyright (C) 2019 Đorđe Jocić
+
+Licensed under the MIT license.
