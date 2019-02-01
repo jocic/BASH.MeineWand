@@ -1,9 +1,9 @@
 sudo: true
 
-language: bash
+language: python
 
-env:
-  - PATH=${PATH}:${HOME}/kcov/bin
+python:
+  - "3.6"
 
 install:
   - pip install coverage python-coveralls
