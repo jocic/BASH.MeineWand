@@ -6,14 +6,14 @@ Meine Wand was originally a collection of my personal scripts for Firewall manag
 
 **Project is still under development...slow ride...take it easy...**
 
-![Help Example](img/help.png)
+![Help Example](images/help.png)
 
 Script has been tested on the following distributions:
 
 *   Ubuntu 18.04
 *   Debian 9.5
 
-[![Buy Me Coffee](img/buy-me-coffee.png)](https://www.paypal.me/DjordjeJocic)
+[![Buy Me Coffee](images/buy-me-coffee.png)](https://www.paypal.me/DjordjeJocic)
 
 ## Notes
 
