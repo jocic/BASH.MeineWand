@@ -1,0 +1,16 @@
+sudo: true
+
+language: bash
+
+env:
+  - PATH=${PATH}:${HOME}/kcov/bin
+
+install:
+  - pip install coverage python-coveralls
+
+script:
+  - coverage run ./source/meine-wand.sh
+
+after_success:
+  - coverage report
+  - coveralls
