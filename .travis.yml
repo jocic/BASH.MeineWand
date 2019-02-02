@@ -1,16 +1,35 @@
 sudo: true
 
-language: python
+language: bash
 
-python:
-  - "3.6"
+env:
+  - PATH=${PATH}:${HOME}/kcov/bin
+
+addons:
+  apt:
+    packages:
+      - binutils-dev
+      - libcurl4-openssl-dev
+      - libdw-dev
+      - libiberty-dev
+
+before_install:
+  - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
 
 install:
-  - pip install coverage python-coveralls
+  - tar xzf master.tar.gz
+  - cd kcov-master
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_INSTALL_PREFIX=${HOME}/kcov ..
+  - make
+  - make install
+  - cd ../..
+  - rm -rf kcov-master
+  - mkdir -p coverage
 
 script:
-  - coverage run ./source/meine-wand.sh
+  - kcov coverage ./source/meine-wand.sh
 
 after_success:
-  - coverage report
-  - coveralls
+  - bash < (curl -s https://codecov.io/bash)
