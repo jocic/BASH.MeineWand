@@ -33,8 +33,9 @@
 # Core Variables #
 ##################
 
-kcov_version="$1";
-kcov_link=$(printf "https://github.com/SimonKagstrom/kcov/archive/v%s.tar.gz", "$kcov_version");
+kcov_dir="$1";
+kcov_version="$2";
+kcov_link=$(printf "https://github.com/SimonKagstrom/kcov/archive/v%s.tar.gz" "$kcov_version");
 kcov_archive=$(printf "kcov-v%s.tar.gz" "$kcov_version");
 
 ###################
@@ -43,23 +44,44 @@ kcov_archive=$(printf "kcov-v%s.tar.gz" "$kcov_version");
 
 temp="";
 
+###################################
+# Step 1 - Prepare Work Directory #
+###################################
+
+printf "[+] Preparing work directory...\n";
+
+if [ -z "$kcov_dir" ]; then
+    printf "\nError: Directory wasn't provided...\n" && exit 1;
+fi
+
+mkdir -p "$kcov_dir" > /dev/null 2>&1;
+
+if [ ! -d "$kcov_dir" ]; then
+    printf "\nError: Directory couldn't be created...\n" && exit 1;
+fi
+
+cd "$kcov_dir" > /dev/null 2>&1;
+
 #############################
-# Step 1 - Download Archive #
+# Step 2 - Download Archive #
 #############################
 
-[ -z "$kcov_version" ] && printf "[+] Version wasn't provided...\n" && exit 1;
+printf "[+] Downloading KCOV...\n" "$kcov_version";
 
-printf "[+] Downloading KCOV v%s...\n" "$kcov_version";
+if [ -z "$kcov_version" ]; then
+    printf "\nError: Version wasn't provided...\n" && exit 1;
+fi
 
 (wget "$kcov_link" -O "$kcov_archive") > /dev/null 2>&1;
 
 ##########################
-# Step 2 - Check Archive #
+# Step 3 - Check Archive #
 ##########################
 
 printf "[+] Checking downloaded archive...\n";
 
 temp=$(file --mime-type "$kcov_archive" | cut -d " " -f 2);
 
-[ "$temp" != "application/gzip" ] \
-    && printf "\nProcedure failed...\n" && exit 1;
+if [ "$temp" != "application/gzip" ]; then
+    printf "\nError: Procedure failed...\n" && exit 1;
+fi

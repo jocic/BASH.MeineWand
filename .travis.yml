@@ -15,7 +15,7 @@ addons:
 
 before_install:
   - ./scripts/print-info.sh
-  - ./scripts/download-kcov.sh 36
+  - ./scripts/download-kcov.sh ./temp/kcov 36
   - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
 
 install:
