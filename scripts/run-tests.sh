@@ -29,36 +29,15 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-##################################
-# STEP 1 - EXPORT CORE VARIABLES #
-##################################
+##################
+# Core Variables #
+##################
 
-export J_MW_USER_ID="$(id -u)";
-export J_MW_SOURCE_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)";
-export J_MW_VERSION="1.0.0";
+source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 
-##############################
-# STEP 2 - INCLUDE FUNCTIONS #
-##############################
+#########
+# Logic #
+#########
 
-. "$J_MW_SOURCE_DIR/includes/script.sh";
-
-############################
-# STEP 3 - PROCESS REQUEST #
-############################
-
-process_arguments "$@";
-
-if [ "$J_MW_ACTION" = "show-help" ]; then
-    
-    show_help;
-    
-elif [ "$J_MW_ACTION" = "show-version" ]; then
-    
-    show_version;
-    
-else
-    
-    printf "TBI\n";
-    
-fi
+bash "$source_dir/../tests/test-param-help.sh";
+bash "$source_dir/../tests/test-param-version.sh";

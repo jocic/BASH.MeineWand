@@ -2,7 +2,7 @@
 
 ###################################################################
 # Script Author: Djordje Jocic                                    #
-# Script Year: 2018                                               #
+# Script Year: 2019                                               #
 # Script License: MIT License (MIT)                               #
 # =============================================================== #
 # Personal Website: http://www.djordjejocic.com/                  #
@@ -35,20 +35,10 @@
 
 source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 
-####################
-# SHUnit Variables #
-####################
-
-shunit_version="2.1.7";
-shunit_location="./other/shunit2/$shunit_version/shunit2";
-
 #########
 # Logic #
 #########
 
-cd "$source_dir/../";
-
-[ ! -e "$shunit_location" ] \
-    && printf "Error: Version %s does not exist." && exit 1;
-
-bash "$shunit_location" && exit $?;
+kcov --coveralls-id="$TRAVIS_JOB_ID" \
+    --exclude-pattern="other,scripts,source/nf,source/ufw,tests" \
+    "$source_dir/../temp/kcov/coverage" "$source_dir/../scripts/run-tests.sh"

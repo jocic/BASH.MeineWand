@@ -29,36 +29,76 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-##################################
-# STEP 1 - EXPORT CORE VARIABLES #
-##################################
+##################
+# Core Variables #
+##################
 
-export J_MW_USER_ID="$(id -u)";
-export J_MW_SOURCE_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)";
-export J_MW_VERSION="1.0.0";
+source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 
-##############################
-# STEP 2 - INCLUDE FUNCTIONS #
-##############################
+#################
+# Primary Tests #
+#################
 
-. "$J_MW_SOURCE_DIR/includes/script.sh";
+# Tests output of the <i>help</i> parameter - variant one.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
 
-############################
-# STEP 3 - PROCESS REQUEST #
-############################
+testVariantOne()
+{
+    # Core Variables
+    
+    help_contents=$(cat "$source_dir/../source/other/help.txt");
+    script_output=$(bash "$source_dir/../source/meine-wand.sh" -h);
+    
+    # Logic
+    
+    assertEquals "$help_contents" "$script_output";
+    
+    return 0;
+}
 
-process_arguments "$@";
+# Tests output of the <i>help</i> parameter - variant two.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
 
-if [ "$J_MW_ACTION" = "show-help" ]; then
+testVariantTwo()
+{
+    # Core Variables
     
-    show_help;
+    help_contents=$(cat "$source_dir/../source/other/help.txt");
+    scriptOutput=$(bash "$source_dir/../source/meine-wand.sh" --help);
     
-elif [ "$J_MW_ACTION" = "show-version" ]; then
+    # Logic
     
-    show_version;
+    assertEquals "$help_contents" "$script_output";
     
-else
-    
-    printf "TBI\n";
-    
-fi
+    return 0;
+}
+
+###################
+# Secondary Tests #
+###################
+
+# SECONDARY TESTS GO HERE
+
+##################
+# Tertiary Tests #
+##################
+
+# TERTIARY TESTS GO HERE
+
+##################
+# Include SHUnit #
+##################
+
+. "$source_dir/../other/shunit2/executable";
