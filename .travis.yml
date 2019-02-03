@@ -22,7 +22,7 @@ install:
   - ./scripts/install-kcov.sh ./temp/kcov
 
 script:
-  - kcov coverage ./source/meine-wand.sh
+  - kcov coverage ./source/meine-wand.sh --coveralls-id=$TRAVIS_JOB_ID
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
