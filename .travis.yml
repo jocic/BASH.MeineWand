@@ -16,15 +16,9 @@ addons:
 before_install:
   - ./scripts/print-info.sh
   - ./scripts/download-kcov.sh ./temp/kcov 36
-  - wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz
+  - ./scripts/build-kcov.sh ./temp/kcov 36
 
 install:
-  - tar xzf master.tar.gz
-  - cd kcov-master
-  - mkdir build
-  - cd build
-  - cmake -DCMAKE_INSTALL_PREFIX=${HOME}/kcov ..
-  - make
   - make install
   - cd ../..
   - rm -rf kcov-master
@@ -34,4 +28,4 @@ script:
   - kcov coverage ./source/meine-wand.sh
 
 after_success:
-  - bash < (curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
