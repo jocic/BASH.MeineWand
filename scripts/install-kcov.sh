@@ -34,8 +34,6 @@
 ##################
 
 kcov_dir="$1";
-kcov_version="$2";
-kcov_archive=$(printf "kcov-v%s.tar.gz" "$kcov_version");
 
 ###################
 # Other Variables #
@@ -51,38 +49,24 @@ printf "[+] Check work directory...\n";
 
 if [ -z "$kcov_dir" ]; then
     printf "\nError: Directory wasn't provided...\n" && exit 1;
-elif [ ! -d "$kcov_dir" ]; then
-    printf "\nError: Directory doesn't exist...\n" && exit 1;
+elif [ ! -d "$kcov_dir/source/build" ]; then
+    printf "\nError: Build directory doesn't exist...\n" && exit 1;
 fi
 
-cd "$kcov_dir";
+#######################################
+# Step 2 - Prepare Coverage Directory #
+#######################################
 
-############################
-# Step 2 - Extract Archive #
-############################
+mkdir "$kcov_dir/coverage" > /dev/null 2>&1;
 
-printf "[+] Extracting archive...\n" "$kcov_version";
-
-temp=$(tar vxzf "$kcov_archive" | sed -n 1p);
-
-(rm -rfd "source" && mv "$temp" "source") > /dev/null 2>&1;
-
-if [ ! -d "source" ]; then
-    printf "\nError: Source directory couldn't be created...\n" && exit 1;
+if [ ! -d "$kcov_dir/coverage" ]; then
+    printf "\nError: Coverage directory coudn't be created...\n" && exit 1;
 fi
 
-#######################
-# Step 3 - Build KCOV #
-#######################
+#########################
+# Step 3 - Install KCOV #
+#########################
 
-printf "[+] Building KCOV...\n";
+cd "$kcov_dir/source/build" > /dev/null 2>&1;
 
-mkdir -p "source/build";
-
-if [ ! -d "source/build" ]; then
-    printf "\nError: Build directory couldn't be created...\n" && exit 1;
-fi
-
-cd "source/build";
-
-cmake -DCMAKE_INSTALL_PREFIX=${HOME}/kcov .. && make;
+make && install;

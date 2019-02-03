@@ -60,7 +60,7 @@ if [ ! -d "$kcov_dir" ]; then
     printf "\nError: Directory couldn't be created...\n" && exit 1;
 fi
 
-cd "$kcov_dir" > /dev/null 2>&1;
+cd "$kcov_dir";
 
 #############################
 # Step 2 - Download Archive #

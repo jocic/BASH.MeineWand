@@ -19,10 +19,7 @@ before_install:
   - ./scripts/build-kcov.sh ./temp/kcov 36
 
 install:
-  - make install
-  - cd ../..
-  - rm -rf kcov-master
-  - mkdir -p coverage
+  - ./scripts/install-kcov.sh ./temp/kcov
 
 script:
   - kcov coverage ./source/meine-wand.sh
