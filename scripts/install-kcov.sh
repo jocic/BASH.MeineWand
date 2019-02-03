@@ -69,4 +69,4 @@ fi
 
 cd "$kcov_dir/source/build" > /dev/null 2>&1;
 
-make && install;
+make install;
