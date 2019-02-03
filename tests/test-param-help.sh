@@ -52,8 +52,8 @@ testVariantOne()
 {
     # Core Variables
     
-    help_contents=$(cat "$source_dir/../source/other/help.txt");
-    script_output=$(bash "$source_dir/../source/meine-wand.sh" -h);
+    local help_contents=$(cat "$source_dir/../source/other/help.txt");
+    local script_output=$(bash "$source_dir/../source/meine-wand.sh" -h);
     
     # Logic
     
@@ -75,8 +75,8 @@ testVariantTwo()
 {
     # Core Variables
     
-    help_contents=$(cat "$source_dir/../source/other/help.txt");
-    scriptOutput=$(bash "$source_dir/../source/meine-wand.sh" --help);
+    local help_contents=$(cat "$source_dir/../source/other/help.txt");
+    local script_output=$(bash "$source_dir/../source/meine-wand.sh" --help);
     
     # Logic
     

@@ -52,8 +52,8 @@ testVariantOne()
 {
     # Core Variables
     
-    version_contents=$(cat "$source_dir/../source/other/version.txt");
-    script_output=$(bash "$source_dir/../source/meine-wand.sh" -v);
+    local version_contents=$(cat "$source_dir/../source/other/version.txt");
+    local script_output=$(bash "$source_dir/../source/meine-wand.sh" -v);
     
     # Logic
     
@@ -77,8 +77,8 @@ testVariantTwo()
 {
     # Core Variables
     
-    version_contents=$(cat "$source_dir/../source/other/version.txt");
-    script_output=$(bash "$source_dir/../source/meine-wand.sh" --version);
+    local version_contents=$(cat "$source_dir/../source/other/version.txt");
+    local script_output=$(bash "$source_dir/../source/meine-wand.sh" --version);
     
     # Logic
     
