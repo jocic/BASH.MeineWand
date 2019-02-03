@@ -22,7 +22,7 @@ install:
   - ./scripts/install-kcov.sh ./temp/kcov
 
 script:
-  - kcov --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern="other,scripts,source/nf,source/ufw,tests" "./temp/kcov/coverage" "./scripts/run-tests.sh"
+  - ./scripts/run-kcov.sh ./temp/kcov/coverage
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -s ./temp/kcov/coverage

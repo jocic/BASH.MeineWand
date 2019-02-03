@@ -34,11 +34,20 @@
 ##################
 
 source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
+coverage_dir="$source_dir/../$1";
 
-#########
-# Logic #
-#########
+#####################################
+# Step 1 - Check Coverage Directory #
+#####################################
+
+if [ ! -d "$coverage_dir" ]; then
+    printf "Error: Coverage directory doesn't exist...\n" && exit 1;
+fi
+
+#####################################
+# Step 1 - Check Coverage Directory #
+#####################################
 
 kcov --coveralls-id="$TRAVIS_JOB_ID" \
     --exclude-pattern="other,scripts,source/nf,source/ufw,tests" \
-    "$source_dir/../temp/kcov/coverage" "$source_dir/../scripts/run-tests.sh"
+    "$coverage_dir" "$source_dir/../scripts/run-tests.sh";
