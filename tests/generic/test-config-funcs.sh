@@ -29,23 +29,17 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-#################
-# GET FUNCTIONS #
-#################
-
-# GET FUNCTIONS GO HERE
-
-#################
-# SET FUNCTIONS #
-#################
-
-# GET FUNCTIONS GO HERE
-
 ##################
-# CORE FUNCTIONS #
+# Core Variables #
 ##################
 
-# Prints project's help.
+source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
+
+#################
+# Primary Tests #
+#################
+
+# Tests validation function - <i>is_dir_name_valid</i>.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -54,92 +48,64 @@
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-show_help()
+testValidationFunction()
 {
-    # Logic
+    # Step 1 - Test Valid Directory Names
     
-    cat "$J_MW_SOURCE_DIR/other/help.txt" && exit 0;
-}
-
-# Prints project's version.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-show_version()
-{
-    # Logic
+    assertEquals 0 $(is_dir_name_valid "foo"; echo "$?");
+    assertEquals 0 $(is_dir_name_valid "foo-bar"; echo "$?");
+    assertEquals 0 $(is_dir_name_valid "foo-bar-123"; echo "$?");
     
-    printf "Meine Wand %s\n" "$J_MW_VERSION";
+    # Step 2 - Test Invalid Directory Names
     
-    cat "$J_MW_SOURCE_DIR/other/version.txt" && exit 0;
-}
-
-# Processes passed script arguments.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @param array $args
-#   Arguments that should be processed.
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-process_arguments()
-{
-    # Logic
-    
-    for arg in "$@"; do
-        
-        # Determine Parameter
-        
-        [ "$J_MW_OPTION" = "initialize" ] && J_MW_PARAMETER="$arg";
-        
-        # Determine Option
-        
-        [ "$arg" = "-i" ] || [ "$arg" = "--initialize" ] \
-            && J_MW_OPTION="initialize";
-        
-        [ "$arg" = "-h" ] || [ "$arg" = "--help" ] \
-            && J_MW_OPTION="show-help";
-        
-        [ "$arg" = "-v" ] || [ "$arg" = "--version" ] \
-            && J_MW_OPTION="show-version";
-        
-    done
+    assertEquals 1 $(is_dir_name_valid ""; echo "$?");
+    assertEquals 1 $(is_dir_name_valid "foo#"; echo "$?");
+    assertEquals 1 $(is_dir_name_valid "foo-bar#"; echo "$?");
     
     return 0;
 }
 
-###################
-# OTHER FUNCTIONS #
-###################
-
-# Parses provided value for use in single quotes.
+# Tests creation function - <i>create_config_dir</i>.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
 # @version: 1.0.0
 # 
-# @param string $value
-#   Value that should be parsed.
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-parse_value()
+testCreationFunction()
 {
-    # Core Variables
-    
-    local value="$1";
-    
     # Logic
     
-    printf "%s" "$value" | sed -e "s/'/'\\\''/g";
+    rm -rfd "~/.cache/meine-wand" "~/.cache/meine-wand-test"
     
-    return 0;
+    assertEquals 0 $(create_config_dir ""; echo "$?"); # Doesn't Exist
+    assertEquals 1 $(create_config_dir ""; echo "$?"); # Exists
+    assertEquals 1 $(create_config_dir "test###"; echo "$?"); # Invalid
+    assertEquals 0 $(create_config_dir "meine-wand-test"; echo "$?"); # Custom
 }
+
+###################
+# Secondary Tests #
+###################
+
+# SECONDARY TESTS GO HERE
+
+##################
+# Tertiary Tests #
+##################
+
+# TERTIARY TESTS GO HERE
+
+########################
+# Include Dependencies #
+########################
+
+. "$source_dir/../../source/includes/configuration.sh";
+
+##################
+# Include SHUnit #
+##################
+
+. "$source_dir/../../other/shunit2/executable";

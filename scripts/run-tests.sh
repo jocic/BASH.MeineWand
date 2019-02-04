@@ -35,9 +35,15 @@
 
 source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 
-#########
-# Logic #
-#########
+###########################
+# Step 1 - Test Functions #
+###########################
+
+bash "$source_dir/../tests/generic/test-config-funcs.sh";
+
+############################
+# Step 2 - Test Parameters #
+############################
 
 bash "$source_dir/../tests/test-param-none.sh";
 bash "$source_dir/../tests/test-param-help.sh";

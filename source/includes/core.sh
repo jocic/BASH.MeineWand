@@ -29,17 +29,23 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-##################
-# Core Variables #
-##################
-
-source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
-
 #################
-# Primary Tests #
+# GET FUNCTIONS #
 #################
 
-# Tests output of the <i>version</i> parameter - short variant.
+# GET FUNCTIONS GO HERE
+
+#################
+# SET FUNCTIONS #
+#################
+
+# GET FUNCTIONS GO HERE
+
+##################
+# CORE FUNCTIONS #
+##################
+
+# Prints project's help.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -48,23 +54,14 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-testShortVariant()
+show_help()
 {
-    # Core Variables
-    
-    local valid_output=$(cat "$source_dir/../source/other/version.txt");
-    local script_output=$(bash "$source_dir/../source/meine-wand.sh" -v);
-    
     # Logic
     
-    valid_output=$(printf "Meine Wand 1.0.0\n%s" "$valid_output");
-    
-    assertEquals "$valid_output" "$script_output";
-    
-    return 0;
+    cat "$J_MW_SOURCE_DIR/other/help.txt" && exit 0;
 }
 
-# Tests output of the <i>version</i> parameter - long variant.
+# Prints project's version.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -73,42 +70,82 @@ testShortVariant()
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-testLongVariant()
+show_version()
 {
-    # Core Variables
-    
-    local valid_output=$(cat "$source_dir/../source/other/version.txt");
-    local script_output=$(bash "$source_dir/../source/meine-wand.sh" --version);
-    
     # Logic
     
-    valid_output=$(printf "Meine Wand 1.0.0\n%s" "$valid_output");
+    printf "Meine Wand %s\n" "$J_MW_VERSION";
     
-    assertEquals "$valid_output" "$script_output";
+    cat "$J_MW_SOURCE_DIR/other/version.txt" && exit 0;
+}
+
+# Processes passed script arguments.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @param array $args
+#   Arguments that should be processed.
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
+
+process_arguments()
+{
+    # Logic
+    
+    for arg in "$@"; do
+        
+        # Determine Parameter
+        
+        [ "$J_MW_OPTION" = "initialize" ] && J_MW_PARAMETER="$arg";
+        
+        # Determine Option
+        
+        [ "$arg" = "-i" ] || [ "$arg" = "--initialize" ] \
+            && J_MW_OPTION="initialize";
+        
+        [ "$arg" = "-h" ] || [ "$arg" = "--help" ] \
+            && J_MW_OPTION="show-help";
+        
+        [ "$arg" = "-v" ] || [ "$arg" = "--version" ] \
+            && J_MW_OPTION="show-version";
+        
+    done
     
     return 0;
 }
 
 ###################
-# Secondary Tests #
+# CHECK FUNCTIONS #
 ###################
 
-# SECONDARY TESTS GO HERE
+# CHECK FUNCTIONS GO HERE
 
-##################
-# Tertiary Tests #
-##################
+###################
+# OTHER FUNCTIONS #
+###################
 
-# TERTIARY TESTS GO HERE
+# Parses provided value for use in single quotes.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @param string $value
+#   Value that should be parsed.
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
 
-########################
-# Include Dependencies #
-########################
-
-# DEPENDENCIES GO HERE
-
-##################
-# Include SHUnit #
-##################
-
-. "$source_dir/../other/shunit2/executable";
+parse_value()
+{
+    # Core Variables
+    
+    local value="$1";
+    
+    # Logic
+    
+    printf "%s" "$value" | sed -e "s/'/'\\\''/g";
+    
+    return 0;
+}

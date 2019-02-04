@@ -43,7 +43,8 @@ export J_MW_PARAMETER="";
 # STEP 2 - INCLUDE FUNCTIONS #
 ##############################
 
-. "$J_MW_SOURCE_DIR/includes/script.sh";
+. "$J_MW_SOURCE_DIR/includes/core.sh";
+. "$J_MW_SOURCE_DIR/includes/configuration.sh";
 . "$J_MW_SOURCE_DIR/includes/firewall.sh";
 
 ############################

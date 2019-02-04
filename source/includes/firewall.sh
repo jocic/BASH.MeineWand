@@ -56,12 +56,38 @@
 
 initialize()
 {
-    # Logic
+    # Step 1 - Create & Check Config Directory
     
-    echo "works?";
+    if [ $(create_config_dir; echo "$?") = 1 ] ; then
+        
+        echo "nope";
+        
+    fi
+    
+    # Step 2 -- Process Parameter
+    
+    if [ "$J_MW_PARAMETER" = "nf" ]; then
+        
+        echo "nf";
+        
+    elif [ "$J_MW_PARAMETER" = "ufw" ]; then
+        
+        echo "ufw";
+        
+    else
+        
+        echo "test";
+        
+    fi
     
     return 0;
 }
+
+###################
+# CHECK FUNCTIONS #
+###################
+
+# CHECK FUNCTIONS GO HERE
 
 ###################
 # OTHER FUNCTIONS #

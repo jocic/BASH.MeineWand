@@ -29,38 +29,90 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-##################
-# Core Variables #
-##################
-
-source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
-
 #################
-# Primary Tests #
+# GET FUNCTIONS #
 #################
 
-# PRIMARY TESTS GO HERE
+# GET FUNCTIONS GO HERE
+
+#################
+# SET FUNCTIONS #
+#################
+
+# GET FUNCTIONS GO HERE
+
+##################
+# CORE FUNCTIONS #
+##################
+
+# Creates a configuration directory.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @param string $dir_name
+#   Directory name that should be checked, ex. <i>my-directory</i>.
+# @return integer
+#   Value <i>0</i> for <i>SUCCESS</i>, or value <i>1</i> for <i>FAILURE</i>.
+
+create_config_dir()
+{
+    # Core Variables
+    
+    local dir_name="$1";
+    
+    # Step 1 - Handle Passed Directory
+    
+    if [ -z "$dir_name" ]; then
+        dir_name="meine-wand";
+    elif [ $(is_dir_name_valid "$dir_name"; echo "$?") = 1 ]; then
+        return 1;
+    fi
+    
+    # Step 2 - Create Directory
+    
+    if [ ! -d "~/.cache/$dir_name" ]; then
+        
+        mkdir -p "~/.cache/$dir_name" > /dev/null 2>&1;
+        
+        return "$?";
+        
+    fi
+    
+    return 1;
+}
 
 ###################
-# Secondary Tests #
+# CHECK FUNCTIONS #
 ###################
 
-# SECONDARY TESTS GO HERE
+# Checks if a provided directory name is valid or not.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @param string $dir_name
+#   Directory name that should be checked, ex. <i>my-directory</i>.
+# @return integer
+#   Value <i>0</i> for <i>SUCCESS</i>, or value <i>1</i> for <i>FAILURE</i>.
 
-##################
-# Tertiary Tests #
-##################
+is_dir_name_valid()
+{
+    # Core Variables
+    
+    local dir_name="$1";
+    
+    # Logic
+    
+    printf "%s" "$dir_name" | grep -qP "^[A-z0-9-]+$";
+    
+    return "$?";
+}
 
-# TERTIARY TESTS GO HERE
+###################
+# OTHER FUNCTIONS #
+###################
 
-########################
-# Include Dependencies #
-########################
-
-# DEPENDENCIES GO HERE
-
-##################
-# Include SHUnit #
-##################
-
-. "$source_dir/../other/shunit2/executable";
+# OTHER FUNCTIONS GO HERE
