@@ -39,5 +39,6 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # Logic #
 #########
 
+bash "$source_dir/../tests/test-param-none.sh";
 bash "$source_dir/../tests/test-param-help.sh";
 bash "$source_dir/../tests/test-param-version.sh";

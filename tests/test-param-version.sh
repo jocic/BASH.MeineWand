@@ -39,7 +39,7 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # Primary Tests #
 #################
 
-# Tests output of the <i>version</i> parameter - variant one.
+# Tests output of the <i>version</i> parameter - short variant.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -48,23 +48,23 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-testVariantOne()
+testShortVariant()
 {
     # Core Variables
     
-    local version_contents=$(cat "$source_dir/../source/other/version.txt");
+    local valid_output=$(cat "$source_dir/../source/other/version.txt");
     local script_output=$(bash "$source_dir/../source/meine-wand.sh" -v);
     
     # Logic
     
-    version_contents=$(printf "Meine Wand 1.0.0\n%s" "$version_contents");
+    valid_output=$(printf "Meine Wand 1.0.0\n%s" "$valid_output");
     
-    assertEquals "$version_contents" "$script_output";
+    assertEquals "$valid_output" "$script_output";
     
     return 0;
 }
 
-# Tests output of the <i>version</i> parameter - variant two.
+# Tests output of the <i>version</i> parameter - long variant.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -73,18 +73,18 @@ testVariantOne()
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-testVariantTwo()
+testLongVariant()
 {
     # Core Variables
     
-    local version_contents=$(cat "$source_dir/../source/other/version.txt");
+    local valid_output=$(cat "$source_dir/../source/other/version.txt");
     local script_output=$(bash "$source_dir/../source/meine-wand.sh" --version);
     
     # Logic
     
-    version_contents=$(printf "Meine Wand 1.0.0\n%s" "$version_contents");
+    valid_output=$(printf "Meine Wand 1.0.0\n%s" "$valid_output");
     
-    assertEquals "$version_contents" "$script_output";
+    assertEquals "$valid_output" "$script_output";
     
     return 0;
 }

@@ -39,7 +39,7 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # Primary Tests #
 #################
 
-# Tests output of the <i>help</i> parameter - short variant.
+# Tests output of the script without any parameters provided.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -48,35 +48,12 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-testShortVariant()
+testCase()
 {
     # Core Variables
     
-    local valid_output=$(cat "$source_dir/../source/other/help.txt");
-    local script_output=$(bash "$source_dir/../source/meine-wand.sh" -h);
-    
-    # Logic
-    
-    assertEquals "$valid_output" "$script_output";
-    
-    return 0;
-}
-
-# Tests output of the <i>help</i> parameter - long variant.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-testLongVariant()
-{
-    # Core Variables
-    
-    local valid_output=$(cat "$source_dir/../source/other/help.txt");
-    local script_output=$(bash "$source_dir/../source/meine-wand.sh" --help);
+    local valid_output="Error: You didn't provide any option.";
+    local script_output=$(bash "$source_dir/../source/meine-wand.sh");
     
     # Logic
     
