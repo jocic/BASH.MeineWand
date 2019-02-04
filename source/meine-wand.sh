@@ -36,12 +36,15 @@
 export J_MW_USER_ID="$(id -u)";
 export J_MW_SOURCE_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 export J_MW_VERSION="1.0.0";
+export J_MW_OPTION="";
+export J_MW_PARAMETER="";
 
 ##############################
 # STEP 2 - INCLUDE FUNCTIONS #
 ##############################
 
 . "$J_MW_SOURCE_DIR/includes/script.sh";
+. "$J_MW_SOURCE_DIR/includes/firewall.sh";
 
 ############################
 # STEP 3 - PROCESS REQUEST #
@@ -49,16 +52,12 @@ export J_MW_VERSION="1.0.0";
 
 process_arguments "$@";
 
-if [ "$J_MW_ACTION" = "show-help" ]; then
-    
+if [ "$J_MW_OPTION" = "show-help" ]; then
     show_help;
-    
-elif [ "$J_MW_ACTION" = "show-version" ]; then
-    
+elif [ "$J_MW_OPTION" = "show-version" ]; then
     show_version;
-    
+elif [ "$J_MW_OPTION" = "initialize" ]; then
+    initialize;
 else
-    
-    printf "TBI\n";
-    
+    printf "Error: You didn't provide any option.\n";
 fi

@@ -45,7 +45,7 @@
 # CORE FUNCTIONS #
 ##################
 
-# Prints project's help.
+# Initializes basic configuration.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -54,64 +54,11 @@
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-show_help()
+initialize()
 {
     # Logic
     
-    cat "$J_MW_SOURCE_DIR/other/help.txt" && exit 0;
-}
-
-# Prints project's version.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-show_version()
-{
-    # Logic
-    
-    printf "Meine Wand %s\n" "$J_MW_VERSION";
-    
-    cat "$J_MW_SOURCE_DIR/other/version.txt" && exit 0;
-}
-
-# Processes passed script arguments.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @param array $args
-#   Arguments that should be processed.
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-process_arguments()
-{
-    # Logic
-    
-    for arg in "$@"; do
-        
-        # Determine Parameter
-        
-        [ "$J_MW_OPTION" = "initialize" ] && J_MW_PARAMETER="$arg";
-        
-        # Determine Option
-        
-        [ "$arg" = "-i" ] || [ "$arg" = "--initialize" ] \
-            && J_MW_OPTION="initialize";
-        
-        [ "$arg" = "-h" ] || [ "$arg" = "--help" ] \
-            && J_MW_OPTION="show-help";
-        
-        [ "$arg" = "-v" ] || [ "$arg" = "--version" ] \
-            && J_MW_OPTION="show-version";
-        
-    done
+    echo "works?";
     
     return 0;
 }
@@ -120,26 +67,4 @@ process_arguments()
 # OTHER FUNCTIONS #
 ###################
 
-# Parses provided value for use in single quotes.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @param string $value
-#   Value that should be parsed.
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-parse_value()
-{
-    # Core Variables
-    
-    local value="$1";
-    
-    # Logic
-    
-    printf "%s" "$value" | sed -e "s/'/'\\\''/g";
-    
-    return 0;
-}
+# OTHER FUNCTIONS GO HERE
