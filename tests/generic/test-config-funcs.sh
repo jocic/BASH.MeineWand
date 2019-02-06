@@ -39,7 +39,7 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # Primary Tests #
 #################
 
-# Tests validation function - <i>is_dir_name_valid</i>.
+# Tests validation function - <i>is_config_dir_valid</i>.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
 # @copyright: 2019 MIT License (MIT)
@@ -48,19 +48,45 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-testValidationFunction()
+testDirectoryValidationFunction()
 {
     # Step 1 - Test Valid Directory Names
     
-    assertEquals 0 $(is_dir_name_valid "foo"; echo "$?");
-    assertEquals 0 $(is_dir_name_valid "foo-bar"; echo "$?");
-    assertEquals 0 $(is_dir_name_valid "foo-bar-123"; echo "$?");
+    assertEquals 0 $(is_config_dir_valid "foo"; echo "$?");
+    assertEquals 0 $(is_config_dir_valid "foo-bar"; echo "$?");
+    assertEquals 0 $(is_config_dir_valid "foo-bar-123"; echo "$?");
     
     # Step 2 - Test Invalid Directory Names
     
-    assertEquals 1 $(is_dir_name_valid ""; echo "$?");
-    assertEquals 1 $(is_dir_name_valid "foo#"; echo "$?");
-    assertEquals 1 $(is_dir_name_valid "foo-bar#"; echo "$?");
+    assertEquals 1 $(is_config_dir_valid ""; echo "$?");
+    assertEquals 1 $(is_config_dir_valid "foo#"; echo "$?");
+    assertEquals 1 $(is_config_dir_valid "foo-bar#"; echo "$?");
+    
+    return 0;
+}
+
+# Tests validation function - <i>is_config_file_valid</i>.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
+
+testFileValidationFunction()
+{
+    # Step 1 - Test Valid Directory Names
+    
+    assertEquals 0 $(is_config_file_valid "foo"; echo "$?");
+    assertEquals 0 $(is_config_file_valid "foo-bar"; echo "$?");
+    assertEquals 0 $(is_config_file_valid "foo-bar.conf"; echo "$?");
+    
+    # Step 2 - Test Invalid Directory Names
+    
+    assertEquals 1 $(is_config_file_valid ""; echo "$?");
+    assertEquals 1 $(is_config_file_valid "foo#"; echo "$?");
+    assertEquals 1 $(is_config_file_valid "foo-bar#"; echo "$?");
     
     return 0;
 }
@@ -74,23 +100,100 @@ testValidationFunction()
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
-testCreationFunction()
+testDirectoryCreationFunction()
 {
-    # Logic
+    # Step 1 - Prepare Directories For Testing
     
-    rm -rfd "~/.cache/meine-wand" "~/.cache/meine-wand-test"
+    if [ -d "$HOME/.config/meine-wand" ]; then
+        mv "$HOME/.config/meine-wand" "$HOME/.config/meine-wand.old";
+    fi
+    
+    rm -rfd "$HOME/.config/meine-wand-test";
+    
+    # Step 2 - Test Creation Function
     
     assertEquals 0 $(create_config_dir ""; echo "$?"); # Doesn't Exist
     assertEquals 1 $(create_config_dir ""; echo "$?"); # Exists
     assertEquals 1 $(create_config_dir "test###"; echo "$?"); # Invalid
     assertEquals 0 $(create_config_dir "meine-wand-test"; echo "$?"); # Custom
+    
+    # Step 3 - Test Check Function
+    
+    assertEquals 1 $(is_config_dir_created ""; echo "$?"); # Doesn't Exist
+    assertEquals 1 $(is_config_dir_created "test"; echo "$?"); # Doesn't Exist
+    assertEquals 0 $(is_config_dir_created "meine-wand"; echo "$?"); # Exists
+    
+    # Step 4 - Handle Old & Test Configurations
+    
+    rm -rfd "$HOME/.config/meine-wand" "$HOME/.config/meine-wand-test";
+    
+    if [ -d "$HOME/.config/meine-wand.old" ]; then
+        mv "$HOME/.config/meine-wand.old" "$HOME/.config/meine-wand";
+    fi
+}
+
+# Tests creation function - <i>create_config_file</i>.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
+
+testFileCreationFunction()
+{
+    # Step 1 - Prepare Directories For Testing
+    
+    if [ -d "$HOME/.config/meine-wand" ]; then
+        mv "$HOME/.config/meine-wand" "~/.config/meine-wand.old";
+    fi
+    
+    mkdir "$HOME/.config/meine-wand";
+    
+    # Step 2 - Test Creation Function
+    
+    assertEquals 0 $(create_config_file ""; echo "$?"); # Doesn't Exist
+    assertEquals 1 $(create_config_file ""; echo "$?"); # Exists
+    assertEquals 1 $(create_config_file "test###"; echo "$?"); # Invalid
+    assertEquals 0 $(create_config_file "some-config"; echo "$?"); # Custom
+    
+    # Step 3 - Test Check Function
+    
+    assertEquals 1 $(is_config_file_created ""; echo "$?"); # Doesn't Exist
+    assertEquals 1 $(is_config_file_created "test"; echo "$?"); # Doesn't Exist
+    assertEquals 0 $(is_config_file_created "basic.conf"; echo "$?"); # Exists
+    
+    # Step 4 - Handle Old & Test Configurations
+    
+    rm -rfd "$HOME/.config/meine-wand";
+    
+    if [ -d "$HOME/.config/meine-wand.old" ]; then
+        mv "$HOME/.config/meine-wand.old" "$HOME/.config/meine-wand";
+    fi
 }
 
 ###################
 # Secondary Tests #
 ###################
 
-# SECONDARY TESTS GO HERE
+# Tests creation function - <i>create_config_dir</i>.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
+
+testGetSetFunctions()
+{
+    # Logic
+    
+    create_config_dir "meine-wand-test";
+    
+    #set_config_param "test-key" "test-value" "meine-wand-test" "test.conf";
+}
 
 ##################
 # Tertiary Tests #
