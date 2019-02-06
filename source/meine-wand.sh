@@ -36,8 +36,6 @@
 export J_MW_USER_ID="$(id -u)";
 export J_MW_SOURCE_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 export J_MW_VERSION="1.0.0";
-export J_MW_OPTION="";
-export J_MW_PARAMETER="";
 
 ##############################
 # STEP 2 - INCLUDE FUNCTIONS #
@@ -47,11 +45,35 @@ export J_MW_PARAMETER="";
 . "$J_MW_SOURCE_DIR/includes/configuration.sh";
 . "$J_MW_SOURCE_DIR/includes/firewall.sh";
 
-############################
-# STEP 3 - PROCESS REQUEST #
-############################
+##############################
+# STEP 3 - PROCESS ARGUMENTS #
+##############################
 
-process_arguments "$@";
+for arg in "$@"; do
+    
+    # Determine Parameter
+    
+    [ "$J_MW_OPTION" = "initialize" ] && J_MW_PARAMETER="$arg";
+    
+    # Determine Option
+    
+    [ "$arg" = "-i" ] || [ "$arg" = "--initialize" ] \
+        && J_MW_OPTION="initialize";
+    
+    [ "$arg" = "-h" ] || [ "$arg" = "--help" ] \
+        && J_MW_OPTION="show-help";
+    
+    [ "$arg" = "-v" ] || [ "$arg" = "--version" ] \
+        && J_MW_OPTION="show-version";
+    
+done
+
+export J_MW_OPTION;
+export J_MW_PARAMETER;
+
+############################
+# STEP 4 - PROCESS OPTIONS #
+############################
 
 if [ "$J_MW_OPTION" = "show-help" ]; then
     show_help;

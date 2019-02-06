@@ -79,43 +79,6 @@ show_version()
     cat "$J_MW_SOURCE_DIR/other/version.txt" && exit 0;
 }
 
-# Processes passed script arguments.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @param array $args
-#   Arguments that should be processed.
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-process_arguments()
-{
-    # Logic
-    
-    for arg in "$@"; do
-        
-        # Determine Parameter
-        
-        [ "$J_MW_OPTION" = "initialize" ] && J_MW_PARAMETER="$arg";
-        
-        # Determine Option
-        
-        [ "$arg" = "-i" ] || [ "$arg" = "--initialize" ] \
-            && J_MW_OPTION="initialize";
-        
-        [ "$arg" = "-h" ] || [ "$arg" = "--help" ] \
-            && J_MW_OPTION="show-help";
-        
-        [ "$arg" = "-v" ] || [ "$arg" = "--version" ] \
-            && J_MW_OPTION="show-version";
-        
-    done
-    
-    return 0;
-}
-
 ###################
 # CHECK FUNCTIONS #
 ###################
