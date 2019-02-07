@@ -91,6 +91,32 @@ testFileValidationFunction()
     return 0;
 }
 
+# Tests validation function - <i>is_config_key_valid</i>.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
+
+testKeyValidationFunction()
+{
+    # Step 1 - Test Valid Directory Names
+    
+    assertEquals 0 $(is_config_key_valid "foo"; echo "$?");
+    assertEquals 0 $(is_config_key_valid "foo-123"; echo "$?");
+    assertEquals 0 $(is_config_key_valid "foo-BAR"; echo "$?");
+    
+    # Step 2 - Test Invalid Directory Names
+    
+    assertEquals 1 $(is_config_key_valid ""; echo "$?");
+    assertEquals 1 $(is_config_key_valid "foo#"; echo "$?");
+    assertEquals 1 $(is_config_key_valid "foo-bar="; echo "$?");
+    
+    return 0;
+}
+
 # Tests creation function - <i>create_config_dir</i>.
 # 
 # @author: Djordje Jocic <office@djordjejocic.com>
@@ -227,6 +253,7 @@ testGetSetFunctions()
 # Include Dependencies #
 ########################
 
+export J_MW_VERSION="1.0.0";
 export J_MW_CONF_DIR="meine-wand";
 export J_MW_CONF_FILE="basic.conf";
 

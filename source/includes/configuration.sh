@@ -61,7 +61,7 @@ get_config_param()
     local line_key="";
     local line_value="";
     
-    # Step 1 - Check Configuration File & Directory Names
+    # Step 1 - Check Provided Arguments
     
     if [ -z "$config_file" ]; then
         config_file="$J_MW_CONF_FILE";
@@ -75,11 +75,15 @@ get_config_param()
         return 1;
     fi
     
-    # Step 2 - Get Configuration Parameter
+    if [ $(is_config_key_valid "$config_key"; echo "$?") = 1 ]; then
+        return 1;
+    fi
     
     if [ $(is_config_file_created "$config_file"; echo "$?") = 1 ]; then
         return 1;
     fi
+    
+    # Step 2 - Set Configuration Parameters
    
     while read config_line; do
         
@@ -131,7 +135,7 @@ set_config_param()
     local line_key="";
     local line_value="";
     
-    # Step 1 - Check Configuration File & Directory Names
+    # Step 1 - Check Provided Arguments
     
     if [ -z "$config_file" ]; then
         config_file="$J_MW_CONF_FILE";
@@ -145,11 +149,15 @@ set_config_param()
         return 1;
     fi
     
-    # Step 2 - Set Configuration Parameter
+    if [ $(is_config_key_valid "$config_key"; echo "$?") = 1 ]; then
+        return 1;
+    fi
     
     if [ $(is_config_file_created "$config_file"; echo "$?") = 1 ]; then
         return 1;
     fi
+    
+    # Step 2 - Set Configuration Parameters
     
     config_path="$HOME/.config/$config_dir/$config_file";
     
@@ -261,7 +269,13 @@ create_config_file()
     file_path="$HOME/.config/$dir_name/$file_name";
     
     if [ ! -f "$file_path" ]; then
-        touch "$file_path" > /dev/null 2>&1 && return 0;
+        
+        touch "$file_path" > /dev/null 2>&1;
+        
+        set_config_param "version" "$J_MW_VERSION" "$file_name" "$dir_name";
+        
+        return 0;
+        
     fi
     
     return 1;
@@ -376,6 +390,30 @@ is_config_file_created()
                 && return 1;
     
     return 0;
+}
+
+# Checks if a provided configuration key is valid or not.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @param string $config_key
+#   Config. key that should be checked, ex. <i>version</i>.
+# @return integer
+#   Value <i>0</i> for <i>SUCCESS</i>, or value <i>1</i> for <i>FAILURE</i>.
+
+is_config_key_valid()
+{
+    # Core Variables
+    
+    local config_key="$1";
+    
+    # Logic
+    
+    grep -qP "^[A-z0-9-]+$" <<< "$config_key";
+    
+    return "$?";
 }
 
 ###################
