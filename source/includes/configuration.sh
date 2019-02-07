@@ -33,26 +33,88 @@
 # GET FUNCTIONS #
 #################
 
+# Gets a configuration a parameter from a desired configuration file.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @param string $config_key
+#   Config. key to be used, ex. <i>version</i>.
+# @param string $config_file
+#   Config. file name that should be used, ex. <i>basic.conf</i>.
+# @param string $config_dir
+#   Config. directory name that should be used, ex. <i>my-directory</i>.
+# @return integer
+#   Value <i>0</i> for <i>SUCCESS</i>, or value <i>1</i> for <i>FAILURE</i>.
+
 get_config_param()
 {
     # Core Variables
     
     local config_key="$1";
-    local config_dir="$2";
-    local config_file="$3";
+    local config_file="$2";
+    local config_dir="$3";
     
-    # Logic
+    # Other Variables
+    
+    local line_key="";
+    local line_value="";
+    
+    # Step 1 - Check Configuration File & Directory Names
     
     if [ -z "$config_file" ]; then
         config_file="$J_MW_CONF_FILE";
+    elif [ $(is_config_file_valid "$config_file"; echo "$?") = 1 ]; then
+        return 1;
     fi
     
+    if [ -z "$config_dir" ]; then
+        config_dir="$J_MW_CONF_DIR";
+    elif [ $(is_config_dir_valid "$config_dir"; echo "$?") = 1 ]; then
+        return 1;
+    fi
     
+    # Step 2 - Get Configuration Parameter
+    
+    if [ $(is_config_file_created "$config_file"; echo "$?") = 1 ]; then
+        return 1;
+    fi
+   
+    while read config_line; do
+        
+        line_key=$(cut -d "=" -f 1 <<< "$config_line");
+        line_value=$(cut -d "=" -f 2- <<< "$config_line");
+        
+        if [ "$line_key" = "$config_key" ]; then
+            echo "$line_value" && break;
+        fi
+        
+    done < "$HOME/.config/$config_dir/$config_file";
+    
+    return 0;
 }
 
 #################
 # SET FUNCTIONS #
 #################
+
+# Sets a configuration a parameter to a desired configuration file.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @param string $config_key
+#   Config. key to be used, ex. <i>version</i>.
+# @param string $config_value
+#   Config. value to be used, ex. <i>1.0.0</i>.
+# @param string $config_file
+#   Config. file name that should be used, ex. <i>basic.conf</i>.
+# @param string $config_dir
+#   Config. directory name that should be used, ex. <i>my-directory</i>.
+# @return integer
+#   Value <i>0</i> for <i>SUCCESS</i>, or value <i>1</i> for <i>FAILURE</i>.
 
 set_config_param()
 {
@@ -60,12 +122,14 @@ set_config_param()
     
     local config_key="$1";
     local config_value="$2";
-    local config_dir="$3";
-    local config_file="$4";
+    local config_file="$3";
+    local config_dir="$4";
+    local config_path="";
     
     # Other Variables
     
-    local config_path="";
+    local line_key="";
+    local line_value="";
     
     # Step 1 - Check Configuration File & Directory Names
     
@@ -83,14 +147,26 @@ set_config_param()
     
     # Step 2 - Set Configuration Parameter
     
-    config_path="$HOME/.config/$dir_name/$config_file";
+    if [ $(is_config_file_created "$config_file"; echo "$?") = 1 ]; then
+        return 1;
+    fi
     
-    if [ $(is_config_file_created "$config_path"; echo "$?") = 0 ]; then
+    config_path="$HOME/.config/$config_dir/$config_file";
+    
+    while read config_line; do
         
-        #if [ -f "~/.cache/$
+        line_key=$(cut -d "=" -f 1 <<< "$config_line");
+        line_value=$(cut -d "=" -f 2- <<< "$config_line");
         
-        printf "%s=%s\n" "$1" "$2" >> "$config_file";
+        [ "$line_key" != "$config_key" ] \
+            && printf "%s=%s\n" "$line_key" "$line_value" >> "$config_path.new";
         
+    done < "$config_path";
+    
+    printf "%s=%s\n" "$config_key" "$config_value" >> "$config_path.new";
+    
+    if [ -f "$config_path.new" ]; then
+        mv "$config_path.new" "$config_path";
     fi
     
     return 1;
@@ -164,19 +240,19 @@ create_config_file()
     
     local file_path="";
     
-    # Step 1 - Handle Passed Directory
-    
-    if [ -z "$dir_name" ]; then
-        dir_name="$J_MW_CONF_DIR";
-    elif [ $(is_config_dir_valid "$dir_name"; echo "$?") = 1 ]; then
-        return 1;
-    fi
-    
-    # Step 2 - Handle Passed File
+    # Step 1 - Handle Passed File
     
     if [ -z "$file_name" ]; then
         file_name="$J_MW_CONF_FILE";
     elif [ $(is_config_file_valid "$file_name"; echo "$?") = 1 ]; then
+        return 1;
+    fi
+    
+    # Step 2 - Handle Passed Directory
+    
+    if [ -z "$dir_name" ]; then
+        dir_name="$J_MW_CONF_DIR";
+    elif [ $(is_config_dir_valid "$dir_name"; echo "$?") = 1 ]; then
         return 1;
     fi
     
@@ -185,7 +261,7 @@ create_config_file()
     file_path="$HOME/.config/$dir_name/$file_name";
     
     if [ ! -f "$file_path" ]; then
-        touch "$file_path" && return 0;
+        touch "$file_path" > /dev/null 2>&1 && return 0;
     fi
     
     return 1;

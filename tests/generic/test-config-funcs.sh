@@ -188,11 +188,33 @@ testFileCreationFunction()
 
 testGetSetFunctions()
 {
-    # Logic
+    # Step 1 - Prepare Directories For Testing
     
-    create_config_dir "meine-wand-test";
+    if [ -d "$HOME/.config/meine-wand" ]; then
+        mv "$HOME/.config/meine-wand" "~/.config/meine-wand.old";
+    fi
     
-    #set_config_param "test-key" "test-value" "meine-wand-test" "test.conf";
+    mkdir "$HOME/.config/meine-wand";
+    
+    touch "$HOME/.config/meine-wand/basic.conf";
+    
+    # Step 2 - Test Get & Set Functions
+    
+    set_config_param "test-key-1" "test-value-1";
+    set_config_param "test-key-2" "test-value-2";
+    set_config_param "test-key-3" "test-value-3";
+    
+    assertEquals "test-value-1" $(get_config_param "test-key-1");
+    assertEquals "test-value-2" $(get_config_param "test-key-2");
+    assertEquals "test-value-3" $(get_config_param "test-key-3");
+    
+    # Step 3 - Handle Old & Test Configurations
+    
+    rm -rfd "$HOME/.config/meine-wand";
+    
+    if [ -d "$HOME/.config/meine-wand.old" ]; then
+        mv "$HOME/.config/meine-wand.old" "$HOME/.config/meine-wand";
+    fi
 }
 
 ##################
