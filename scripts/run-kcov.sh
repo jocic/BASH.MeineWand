@@ -49,5 +49,5 @@ fi
 #####################################
 
 kcov --coveralls-id="$TRAVIS_JOB_ID" \
-    --exclude-pattern="other,scripts,source/nf,source/ufw,tests" \
+    --exclude-pattern="other,scripts,source/procedures,tests" \
     "$coverage_dir" "$source_dir/../scripts/run-tests.sh";
