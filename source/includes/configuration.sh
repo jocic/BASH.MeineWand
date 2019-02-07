@@ -44,7 +44,7 @@ get_config_param()
     # Logic
     
     if [ -z "$config_file" ]; then
-        config_file="basic.conf";
+        config_file="$J_MW_CONF_FILE";
     fi
     
     
@@ -65,31 +65,35 @@ set_config_param()
     
     # Other Variables
     
-    
+    local config_path="";
     
     # Step 1 - Check Configuration File & Directory Names
     
     if [ -z "$config_file" ]; then
-        config_file="basic.conf";
+        config_file="$J_MW_CONF_FILE";
     elif [ $(is_config_file_valid "$config_file"; echo "$?") = 1 ]; then
         return 1;
     fi
     
-    if [ $(is_config_dir_valid "$config_dir"; echo "$?") = 1 ]; then
+    if [ -z "$config_dir" ]; then
+        config_dir="$J_MW_CONF_DIR";
+    elif [ $(is_config_dir_valid "$config_dir"; echo "$?") = 1 ]; then
         return 1;
     fi
     
-    # Step 2 - Check If Configuration Directory Exists
-    
-    
-    
     # Step 2 - Set Configuration Parameter
     
-    echo "$config_dir/$config_file";exit;
+    config_path="$HOME/.config/$dir_name/$config_file";
     
-    #if [ -f "~/.cache/$
+    if [ $(is_config_file_created "$config_path"; echo "$?") = 0 ]; then
+        
+        #if [ -f "~/.cache/$
+        
+        printf "%s=%s\n" "$1" "$2" >> "$config_file";
+        
+    fi
     
-    printf "%s=%s\n" "$1" "$2" >> "$config_file";
+    return 1;
 }
 
 ##################
@@ -113,22 +117,24 @@ create_config_dir()
     
     local dir_name="$1";
     
+    # Other Variables
+    
+    local dir_path="";
+    
     # Step 1 - Handle Passed Directory
     
     if [ -z "$dir_name" ]; then
-        dir_name="meine-wand";
+        dir_name="$J_MW_CONF_DIR";
     elif [ $(is_config_dir_valid "$dir_name"; echo "$?") = 1 ]; then
         return 1;
     fi
     
     # Step 2 - Create Directory
     
-    if [ ! -d "$HOME/.config/$dir_name" ]; then
-        
-        mkdir -p "$HOME/.config/$dir_name" > /dev/null 2>&1;
-        
-        return "$?";
-        
+    dir_path="$HOME/.config/$dir_name";
+    
+    if [ ! -d "$dir_path" ]; then
+        mkdir -p "$dir_path" > /dev/null 2>&1 && return "$?";
     fi
     
     return 1;
@@ -154,10 +160,14 @@ create_config_file()
     local file_name="$1";
     local dir_name="$2";
     
+    # Other Variables
+    
+    local file_path="";
+    
     # Step 1 - Handle Passed Directory
     
     if [ -z "$dir_name" ]; then
-        dir_name="meine-wand";
+        dir_name="$J_MW_CONF_DIR";
     elif [ $(is_config_dir_valid "$dir_name"; echo "$?") = 1 ]; then
         return 1;
     fi
@@ -165,15 +175,17 @@ create_config_file()
     # Step 2 - Handle Passed File
     
     if [ -z "$file_name" ]; then
-        file_name="basic.conf";
+        file_name="$J_MW_CONF_FILE";
     elif [ $(is_config_file_valid "$file_name"; echo "$?") = 1 ]; then
         return 1;
     fi
     
     # Step 3 - Create File
     
-    if [ ! -f "$HOME/.config/$dir_name/$file_name" ]; then
-        touch "$HOME/.config/$dir_name/$file_name" && return 0;
+    file_path="$HOME/.config/$dir_name/$file_name";
+    
+    if [ ! -f "$file_path" ]; then
+        touch "$file_path" && return 0;
     fi
     
     return 1;
@@ -280,7 +292,7 @@ is_config_file_created()
     
     # Logic
     
-    [ -z "$dir_name" ] && dir_name="meine-wand";
+    [ -z "$dir_name" ] && dir_name="$J_MW_CONF_DIR";
     
     [ $(is_config_dir_valid "$dir_name"; echo "$?") = 1 ] \
         || [ $(is_config_file_valid "$file_name"; echo "$?") = 1 ] \

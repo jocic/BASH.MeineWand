@@ -36,6 +36,8 @@
 export J_MW_USER_ID="$(id -u)";
 export J_MW_SOURCE_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 export J_MW_VERSION="1.0.0";
+export J_MW_CONF_DIR="meine-wand";
+export J_MW_CONF_FILE="basic.conf";
 
 ##############################
 # STEP 2 - INCLUDE FUNCTIONS #
