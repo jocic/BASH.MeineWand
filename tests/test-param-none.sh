@@ -52,7 +52,7 @@ testCase()
 {
     # Core Variables
     
-    local valid_output="Error: You didn't provide any option.";
+    local valid_output="[X] You didn't provide any option.";
     local script_output=$(bash "$source_dir/../source/meine-wand.sh");
     
     # Logic

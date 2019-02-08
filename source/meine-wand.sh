@@ -84,5 +84,5 @@ elif [ "$J_MW_OPTION" = "show-version" ]; then
 elif [ "$J_MW_OPTION" = "initialize" ]; then
     initialize;
 else
-    printf "Error: You didn't provide any option.\n";
+    printf "[X] You didn't provide any option.\n";
 fi

@@ -145,7 +145,7 @@ testDirectoryCreationFunction()
     
     # Step 3 - Test Check Function
     
-    assertEquals 1 $(is_config_dir_created ""; echo "$?"); # Doesn't Exist
+    assertEquals 0 $(is_config_dir_created ""; echo "$?"); # Exists
     assertEquals 1 $(is_config_dir_created "test"; echo "$?"); # Doesn't Exist
     assertEquals 0 $(is_config_dir_created "meine-wand"; echo "$?"); # Exists
     
@@ -186,7 +186,7 @@ testFileCreationFunction()
     
     # Step 3 - Test Check Function
     
-    assertEquals 1 $(is_config_file_created ""; echo "$?"); # Doesn't Exist
+    assertEquals 0 $(is_config_file_created ""; echo "$?"); # Exists
     assertEquals 1 $(is_config_file_created "test"; echo "$?"); # Doesn't Exist
     assertEquals 0 $(is_config_file_created "basic.conf"; echo "$?"); # Exists
     

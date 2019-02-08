@@ -56,11 +56,21 @@
 
 initialize()
 {
+    # Core Variables
+    
+    selection="";
+    
     # Step 1 - Create & Check Config Directory
     
-    if [ $(create_config_dir; echo "$?") = 1 ] ; then
+    if    [ $(create_config_dir;     echo "$?") = 1 ] \
+       && [ $(is_config_dir_created; echo "$?") = 1 ]; then
         
-        echo "nope";
+        printf "[X] Configuration directory coudn't be created.\n" && exit;
+        
+    elif    [ $(create_config_file;     echo "$?") = 1 ] \
+         && [ $(is_config_file_created; echo "$?") = 1 ]; then
+        
+        printf "[X] Configuration file coudn't be created.\n" && exit; 
         
     fi
     
@@ -68,17 +78,52 @@ initialize()
     
     if [ "$J_MW_PARAMETER" = "nf" ]; then
         
-        echo "nf";
+        set_config_param "firewall" "nf";
+        set_config_param "configuration" "none";
+        set_config_param "configured" "yes";
+        
+        execute_nf_procedure "reset";
         
     elif [ "$J_MW_PARAMETER" = "ufw" ]; then
         
-        echo "ufw";
+        set_config_param "firewall" "ufw";
+        set_config_param "configuration" "none";
+        set_config_param "configured" "yes";
+        
+        execute_ufw_procedure "reset";
+        
+    elif [ "$J_MW_PARAMETER" = "" ]; then
+        
+        # Get Firewall Option
+        
+        printf "Your firewall of choice:\n\n  1. %s\n  2. %s\n\n" \
+            "NetFilter" \
+            "UFW";
+        
+        read -p "Selection: " selection;
+        
+        if [ "$selection" = 1 ]; then
+            set_config_param "firewall" "nf";
+        elif [ "$selection" = 2 ]; then
+            set_config_param "firewall" "ufw";
+        else
+            printf "\n[X] Invalid selection made.\n" && exit; 
+        fi
+        
+        # Set Other Parameters
+        
+        set_config_param "configuration" "none";
+        set_config_param "configured" "yes";
+        
+        printf "\n";
         
     else
         
-        echo "test";
+        printf "[X] Invalid parameter provided.\n" && exit;
         
     fi
+    
+    printf "[+] Configuration initialized.\n";
     
     return 0;
 }
@@ -93,4 +138,12 @@ initialize()
 # OTHER FUNCTIONS #
 ###################
 
-# OTHER FUNCTIONS GO HERE
+execute_nf_procedure()
+{
+    return 0;
+}
+
+execute_ufw_procedure()
+{
+    return 0;
+}

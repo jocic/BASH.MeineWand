@@ -91,7 +91,7 @@ get_config_param()
         line_value=$(cut -d "=" -f 2- <<< "$config_line");
         
         if [ "$line_key" = "$config_key" ]; then
-            echo "$line_value" && break;
+            printf "$line_value" && break;
         fi
         
     done < "$HOME/.config/$config_dir/$config_file";
@@ -329,6 +329,8 @@ is_config_dir_created()
     
     # Logic
     
+    [ -z "$dir_name" ] && dir_name="$J_MW_CONF_DIR";
+    
     [ $(is_config_dir_valid "$dir_name"; echo "$?") = 1 ] \
        || [ ! -d "$HOME/.config/$dir_name" ] \
            && return 1;
@@ -381,6 +383,8 @@ is_config_file_created()
     local dir_name="$2";
     
     # Logic
+    
+    [ -z "$file_name" ] && file_name="$J_MW_CONF_FILE";
     
     [ -z "$dir_name" ] && dir_name="$J_MW_CONF_DIR";
     
