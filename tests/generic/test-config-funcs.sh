@@ -172,7 +172,7 @@ testFileCreationFunction()
     # Step 1 - Prepare Directories For Testing
     
     if [ -d "$HOME/.config/meine-wand" ]; then
-        mv "$HOME/.config/meine-wand" "~/.config/meine-wand.old";
+        mv "$HOME/.config/meine-wand" "$HOME/.config/meine-wand.old";
     fi
     
     mkdir "$HOME/.config/meine-wand";
@@ -217,7 +217,7 @@ testGetSetFunctions()
     # Step 1 - Prepare Directories For Testing
     
     if [ -d "$HOME/.config/meine-wand" ]; then
-        mv "$HOME/.config/meine-wand" "~/.config/meine-wand.old";
+        mv "$HOME/.config/meine-wand" "$HOME/.config/meine-wand.old";
     fi
     
     mkdir "$HOME/.config/meine-wand";
