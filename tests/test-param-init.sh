@@ -35,18 +35,82 @@
 
 source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 
-###########################
-# Step 1 - Test Functions #
-###########################
+#################
+# Primary Tests #
+#################
 
-bash "$source_dir/../tests/generic/test-config-funcs.sh";
-bash "$source_dir/../tests/generic/test-core-funcs.sh";
+# Tests output of the <i>help</i> parameter - short variant.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
 
-############################
-# Step 2 - Test Parameters #
-############################
+testShortVariant()
+{
+    # Core Variables
+    
+    local valid_output="";
+    local script_output="";
+    
+    # Logic
+    
+    valid_output="[X] Invalid parameter provided.";
+    script_output=$(bash "$source_dir/../source/meine-wand.sh" -i 123);
+    
+    assertEquals "$valid_output" "$script_output";
+    
+    return 0;
+}
 
-bash "$source_dir/../tests/test-param-none.sh";
-bash "$source_dir/../tests/test-param-help.sh";
-bash "$source_dir/../tests/test-param-version.sh";
-bash "$source_dir/../tests/test-param-init.sh";
+# Tests output of the <i>help</i> parameter - long variant.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
+
+testLongVariant()
+{
+    # Core Variables
+    
+    local valid_output="";
+    local script_output="";
+    
+    # Logic
+    
+    valid_output="[X] Invalid parameter provided.";
+    script_output=$(bash "$source_dir/../source/meine-wand.sh" --initialize 123);
+    
+    assertEquals "$valid_output" "$script_output";
+    
+    return 0;
+}
+
+###################
+# Secondary Tests #
+###################
+
+# SECONDARY TESTS GO HERE
+
+##################
+# Tertiary Tests #
+##################
+
+# TERTIARY TESTS GO HERE
+
+########################
+# Include Dependencies #
+########################
+
+# DEPENDENCIES GO HERE
+
+##################
+# Include SHUnit #
+##################
+
+. "$source_dir/../other/shunit2/executable";
