@@ -183,6 +183,7 @@ testFileCreationFunction()
     assertEquals 1 $(create_config_file ""; echo "$?"); # Exists
     assertEquals 1 $(create_config_file "test###"; echo "$?"); # Invalid
     assertEquals 0 $(create_config_file "some-config"; echo "$?"); # Custom
+    assertEquals 1 $(create_config_file "" "###"; echo "$?"); # Invalid
     
     # Step 3 - Test Check Function
     
@@ -224,7 +225,7 @@ testGetSetFunctions()
     
     touch "$HOME/.config/meine-wand/basic.conf";
     
-    # Step 2 - Test Get & Set Functions
+    # Step 2 - Test Get & Set Function
     
     set_config_param "test-key-1" "test-value-1";
     set_config_param "test-key-2" "test-value-2";
@@ -234,7 +235,21 @@ testGetSetFunctions()
     assertEquals "test-value-2" $(get_config_param "test-key-2");
     assertEquals "test-value-3" $(get_config_param "test-key-3");
     
-    # Step 3 - Handle Old & Test Configurations
+    # Step 3 - Test Specific Cases (Set)
+    
+    assertEquals 1 $(set_config_param "#" ""; echo "$?"); # Invalid Key
+    assertEquals 1 $(set_config_param "" "" "#"; echo "$?"); # Invalid Conf.
+    assertEquals 1 $(set_config_param "" "" "" "#"; echo "$?"); # Invalid Conf.
+    assertEquals 1 $(set_config_param "" "" "test"; echo "$?"); # Missing Conf.
+    
+    # Step 4 - Test Specific Cases (Get)
+    
+    assertEquals 1 $(get_config_param "#" ; echo "$?"); # Invalid Key
+    assertEquals 1 $(get_config_param "" "#"; echo "$?"); # Invalid Conf.
+    assertEquals 1 $(get_config_param "" "" "#"; echo "$?"); # Invalid Conf.
+    assertEquals 1 $(get_config_param "" "test"; echo "$?"); # Missing Conf.
+    
+    # Step 5 - Handle Old & Test Configurations
     
     rm -rfd "$HOME/.config/meine-wand";
     

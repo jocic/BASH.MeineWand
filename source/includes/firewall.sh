@@ -142,6 +142,8 @@ initialize()
 # @copyright: 2019 MIT License (MIT)
 # @version: 1.0.0
 # 
+# @param string $procedure
+#   Procedure that should be called, ex. <i>reset</i>.
 # @return integer
 #   It always returns <i>0</i> - SUCCESS.
 
