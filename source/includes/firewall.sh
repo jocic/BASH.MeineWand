@@ -82,15 +82,11 @@ initialize()
         set_config_param "configuration" "none";
         set_config_param "configured" "yes";
         
-        execute_nf_procedure "reset";
-        
     elif [ "$J_MW_PARAMETER" = "ufw" ]; then
         
         set_config_param "firewall" "ufw";
         set_config_param "configuration" "none";
         set_config_param "configured" "yes";
-        
-        execute_ufw_procedure "reset";
         
     elif [ "$J_MW_PARAMETER" = "" ]; then
         
@@ -125,6 +121,8 @@ initialize()
     
     printf "[+] Configuration initialized.\n";
     
+    ( execute_procedure "reset" ) > /dev/null 2>&1;
+    
     return 0;
 }
 
@@ -138,12 +136,53 @@ initialize()
 # OTHER FUNCTIONS #
 ###################
 
-execute_nf_procedure()
-{
-    return 0;
-}
+# Executes a defined firewall procedure for a defined group.
+# 
+# @author: Djordje Jocic <office@djordjejocic.com>
+# @copyright: 2019 MIT License (MIT)
+# @version: 1.0.0
+# 
+# @return integer
+#   It always returns <i>0</i> - SUCCESS.
 
-execute_ufw_procedure()
+execute_procedure()
 {
+    # Core Variables
+    
+    local procedure="$1";
+    local group=$(get_config_param "firewall");
+    local configured=$(get_config_param "configured");
+    
+    # Other Variables
+    
+    local group_path="$J_MW_SOURCE_DIR/procedures/$group";
+    local procedure_path="$J_MW_SOURCE_DIR/procedures/$group/$procedure.sh";
+    
+    # Step 1 - Check Group
+    
+    if [ ! -d "$group_path" ]; then
+        printf "[X] Desired group doesn't exist.\n" && exit;
+    fi
+    
+    # Step 2 - Check Procedure
+    
+    if [ ! -f "$procedure_path" ]; then
+        printf "[X] Desired procedure doesn't exist.\n" && exit;
+    fi
+    
+    # Step 3 - Execute Procedure
+    
+    if [ "$configured" = "yes" ]; then
+        
+        ( . "$procedure_path" ) > /dev/null 2>&1;
+        
+        printf "[+] Procedure \"%s\" was executed.\n" "$procedure";
+        
+    else
+        
+        printf "[X] Script wasn't configured fully.\n" && exit;
+        
+    fi
+    
     return 0;
 }
