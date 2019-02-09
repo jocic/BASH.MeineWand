@@ -15,6 +15,30 @@ Script has been tested on the following distributions:
 
 [![Buy Me Coffee](images/buy-me-coffee.png)](https://www.paypal.me/DjordjeJocic)
 
+## Examples
+
+This script was made for Debian and Debian-based distributions but it should work on any other Linux distribution - as long as you stick to NetFilter procedures.
+
+### Example 1 - Initialization
+
+To initialize basic configuration for NetFilter execute the following.
+
+```bash
+bash ./meine-wand.sh -i nf
+```
+
+Procedure is exactly the same for UFW.
+
+```bash
+bash ./meine-wand.sh -i ufw
+```
+
+Alternatively, you can initialize Meine Wand using the interactive mode by ommiting the parameter.
+
+```bash
+bash ./meine-wand.sh -i
+```
+
 ## Alias
 
 If you plan to use the script everyday, you should probably create an alias.
