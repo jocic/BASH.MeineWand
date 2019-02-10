@@ -77,6 +77,10 @@ export J_MW_PARAMETER;
 # STEP 4 - PROCESS OPTIONS #
 ############################
 
+if [ "$J_MW_USER_ID" != 0 ]; then
+    printf "[+] This script should be ran with root privileges.\n\n";
+fi
+
 if [ "$J_MW_OPTION" = "show-help" ]; then
     show_help;
 elif [ "$J_MW_OPTION" = "show-version" ]; then
