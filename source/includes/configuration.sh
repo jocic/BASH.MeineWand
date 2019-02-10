@@ -55,9 +55,11 @@ get_config_param()
     local config_key="$1";
     local config_file="$2";
     local config_dir="$3";
+    local config_path="";
     
     # Other Variables
     
+    local config="";
     local line_key="";
     local line_value="";
     
@@ -84,17 +86,21 @@ get_config_param()
     fi
     
     # Step 2 - Set Configuration Parameters
+    
+    config_path="$HOME/.config/$config_dir/$config_file";
+    
+    config=$(cat "$config_path");
    
-    while read config_line; do
+    for config_line in $config; do
         
-        line_key=$(cut -d "=" -f 1 <<< "$config_line");
-        line_value=$(cut -d "=" -f 2- <<< "$config_line");
+        line_key=$(printf "%s" "$config_line" | cut -d "=" -f 1);
+        line_value=$(printf "%s" "$config_line" | cut -d "=" -f 2-);
         
         if [ "$line_key" = "$config_key" ]; then
             printf "$line_value" && break;
         fi
         
-    done < "$HOME/.config/$config_dir/$config_file";
+    done
     
     return 0;
 }
@@ -132,6 +138,7 @@ set_config_param()
     
     # Other Variables
     
+    local config="";
     local line_key="";
     local line_value="";
     
@@ -161,15 +168,17 @@ set_config_param()
     
     config_path="$HOME/.config/$config_dir/$config_file";
     
-    while read config_line; do
+    config=$(cat "$config_path");
+    
+    for config_line in $config; do
         
-        line_key=$(cut -d "=" -f 1 <<< "$config_line");
-        line_value=$(cut -d "=" -f 2- <<< "$config_line");
+        line_key=$(printf "%s" "$config_line" | cut -d "=" -f 1);
+        line_value=$(printf "%s" "$config_line" | cut -d "=" -f 2-);
         
         [ "$line_key" != "$config_key" ] \
             && printf "%s=%s\n" "$line_key" "$line_value" >> "$config_path.new";
         
-    done < "$config_path";
+    done
     
     printf "%s=%s\n" "$config_key" "$config_value" >> "$config_path.new";
     
@@ -304,7 +313,7 @@ is_config_dir_valid()
     
     # Logic
     
-    grep -qP "^[A-z0-9-]+$" <<< "$dir_name";
+    printf "%s" "$dir_name" | grep -qP "^[A-z0-9-]+$";
     
     return "$?";
 }
@@ -357,7 +366,7 @@ is_config_file_valid()
     
     # Logic
     
-    grep -qP "^[A-z-.]+$" <<< "$file_name";
+    printf "%s" "$file_name" | grep -qP "^[A-z-.]+$";
     
     return "$?";
 }
@@ -415,7 +424,7 @@ is_config_key_valid()
     
     # Logic
     
-    grep -qP "^[A-z0-9-]+$" <<< "$config_key";
+    printf "%s" "$config_key" | grep -qP "^[A-z0-9-]+$";
     
     return "$?";
 }
