@@ -58,7 +58,7 @@ testShortVariant()
     # Logic
     
     valid_output="[X] Invalid parameter provided.";
-    script_output=$(bash "$source_dir/../source/meine-wand.sh" -i 123);
+    script_output=$(bash "$source_dir/../source/meine-wand.sh" -i 123 --supress-warning);
     
     assertEquals "$valid_output" "$script_output";
     
@@ -84,7 +84,8 @@ testLongVariant()
     # Logic
     
     valid_output="[X] Invalid parameter provided.";
-    script_output=$(bash "$source_dir/../source/meine-wand.sh" --initialize 123);
+    script_output=$(bash "$source_dir/../source/meine-wand.sh" --initialize 1 \
+        --supress-warning);
     
     assertEquals "$valid_output" "$script_output";
     

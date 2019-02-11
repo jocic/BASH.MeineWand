@@ -53,7 +53,8 @@ testShortVariant()
     # Core Variables
     
     local valid_output=$(cat "$source_dir/../source/other/version.txt");
-    local script_output=$(bash "$source_dir/../source/meine-wand.sh" -v);
+    local script_output=$(bash "$source_dir/../source/meine-wand.sh" -v \
+        --supress-warning);
     
     # Logic
     
@@ -78,7 +79,7 @@ testLongVariant()
     # Core Variables
     
     local valid_output=$(cat "$source_dir/../source/other/version.txt");
-    local script_output=$(bash "$source_dir/../source/meine-wand.sh" --version);
+    local script_output=$(bash "$source_dir/../source/meine-wand.sh" --version --supress-warning);
     
     # Logic
     

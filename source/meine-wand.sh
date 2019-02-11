@@ -38,6 +38,7 @@ export J_MW_SOURCE_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 export J_MW_VERSION="1.0.0";
 export J_MW_CONF_DIR="meine-wand";
 export J_MW_CONF_FILE="basic.conf";
+export J_MW_SUPRESS_WARNING="no";
 
 ##############################
 # STEP 2 - INCLUDE FUNCTIONS #
@@ -68,6 +69,11 @@ for arg in "$@"; do
     [ "$arg" = "-v" ] || [ "$arg" = "--version" ] \
         && J_MW_OPTION="show-version";
     
+    # Handle Flags
+    
+    [ "$arg" = "--supress-warning" ] \
+        && J_MW_SUPRESS_WARNING="yes";
+    
 done
 
 export J_MW_OPTION;
@@ -77,7 +83,7 @@ export J_MW_PARAMETER;
 # STEP 4 - PROCESS OPTIONS #
 ############################
 
-if [ "$J_MW_USER_ID" != 0 ]; then
+if [ "$J_MW_USER_ID" != 0 ] && [ "$J_MW_SUPRESS_WARNING" = "no" ]; then
     printf "[+] This script should be ran with root privileges.\n\n";
 fi
 
