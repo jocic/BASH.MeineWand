@@ -2,7 +2,10 @@
 
 [![Build Status](https://travis-ci.org/jocic/BASH.MeineWand.svg?branch=master)](https://travis-ci.org/jocic/BASH.MeineWand) [![Coverage Status](https://coveralls.io/repos/github/jocic/BASH.MeineWand/badge.svg?branch=master)](https://coveralls.io/github/jocic/BASH.MeineWand?branch=master) [![Codecov](https://codecov.io/gh/jocic/BASH.MeineWand/branch/master/graph/badge.svg)](https://codecov.io/gh/jocic/BASH.MeineWand) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b33d8a0308ee4f15b187a06c614cbd82)](https://www.codacy.com/app/jocic/BASH.MeineWand?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jocic/BASH.MeineWand&amp;utm_campaign=Badge_Grade) [![License](https://poser.pugx.org/jocic/google-authenticator/license)](https://packagist.org/packages/jocic/google-authenticator)
 
-Meine Wand was originally a collection of my personal scripts for Firewall management on Debian and Debian-based Linux distributions, but it evolved into a script that can be used for Firewall configuration, incident logging, etc.
+Meine Wand was originally a collection of my personal scripts for Firewall
+management on Debian and Debian-based Linux distributions, but it evolved
+into a script that can be used for Firewall configuration, incident logging,
+etc.
 
 **Project is still under development...slow ride...take it easy...**
 
@@ -17,7 +20,9 @@ Script has been tested on the following distributions:
 
 ## Examples
 
-This script was made for Debian and Debian-based distributions but it should work on any other Linux distribution - as long as you stick to NetFilter procedures.
+This script was made for Debian and Debian-based distributions but it should
+work on any other Linux distribution - as long as you stick to NetFilter
+procedures.
 
 ### Example 1 - Initialization
 
@@ -33,7 +38,8 @@ Procedure is exactly the same for UFW.
 bash ./meine-wand.sh -i ufw
 ```
 
-Alternatively, you can initialize Meine Wand using the interactive mode by ommiting the parameter.
+Alternatively, you can initialize Meine Wand using the interactive mode by
+ommiting the parameter.
 
 ```bash
 bash ./meine-wand.sh -i
@@ -57,14 +63,16 @@ echo alias meine-wand="/path/to/your/folder/meine-wand.sh" >> ~/.bash_aliases
 
 ## Installation
 
-Alternatively, you can add my personal APT repository to your machine and install **Meine Wand** like you would anything else.
+Alternatively, you can add my personal APT repository to your machine and
+install **Meine Wand** like you would anything else.
 
 Add the repository.
 
 ```bash
 wget -nc https://www.djordjejocic.com/files/apt/Release.key
 sudo apt-key add Release.key
-sudo echo "deb http://apt.djordjejocic.com general main" >> "/etc/apt/sources.list"
+sudo echo "deb http://apt.djordjejocic.com general main" >>
+"/etc/apt/sources.list"
 sudo apt-get update
 ```
 
@@ -76,7 +84,8 @@ sudo apt-get install meine-wand
 
 ## Contribution
 
-Please review the following documents if you are planning to contribute to the project:
+Please review the following documents if you are planning to contribute to
+the project:
 
 *   [Contributor Covenant Code of Conduct](code-of-conduct.md)
 *   [Contribution Guidelines](contributing.md)
@@ -85,11 +94,13 @@ Please review the following documents if you are planning to contribute to the p
 
 ## Support
 
-Please don't hessitate to contact me if you have any questions, ideas, or concerns.
+Please don't hessitate to contact me if you have any questions, ideas, or
+concerns.
 
 My Twitter account is: [@jocic_91](https://www.twitter.com/jocic_91)
 
-My support E-Mail address is: [support@djordjejocic.com](mailto:support@djordjejocic.com)
+My support E-Mail address is:
+[support@djordjejocic.com](mailto:support@djordjejocic.com)
 
 ## Copyright & License
 
