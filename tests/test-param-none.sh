@@ -54,7 +54,7 @@ testCase()
     
     local valid_output="[X] You didn't provide any option.";
     local script_output=$(bash "$source_dir/../source/meine-wand.sh" \
-        --supress-warning);
+        --suppress-warning);
     
     # Logic
     

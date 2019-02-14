@@ -30,7 +30,7 @@
 ###################################################################
 
 ##################################
-# STEP 1 - EXPORT CORE VARIABLES #
+# Step 1 - Export Core Variables #
 ##################################
 
 export J_MW_USER_ID="$(id -u)";
@@ -38,10 +38,10 @@ export J_MW_SOURCE_DIR="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 export J_MW_VERSION="1.0.0";
 export J_MW_CONF_DIR="meine-wand";
 export J_MW_CONF_FILE="basic.conf";
-export J_MW_SUPRESS_WARNING="no";
+export J_MW_SUPPRESS_WARNING="no";
 
 ##############################
-# STEP 2 - INCLUDE FUNCTIONS #
+# Step 2 - Include Functions #
 ##############################
 
 . "$J_MW_SOURCE_DIR/includes/core.sh";
@@ -49,7 +49,7 @@ export J_MW_SUPRESS_WARNING="no";
 . "$J_MW_SOURCE_DIR/includes/firewall.sh";
 
 ##############################
-# STEP 3 - PROCESS ARGUMENTS #
+# STEP 3 - Process Arguments #
 ##############################
 
 for arg in "$@"; do
@@ -71,8 +71,8 @@ for arg in "$@"; do
     
     # Handle Flags
     
-    [ "$arg" = "--supress-warning" ] \
-        && J_MW_SUPRESS_WARNING="yes";
+    [ "$arg" = "--suppress-warning" ] \
+        && J_MW_SUPPRESS_WARNING="yes";
     
 done
 
@@ -80,10 +80,10 @@ export J_MW_OPTION;
 export J_MW_PARAMETER;
 
 ############################
-# STEP 4 - PROCESS OPTIONS #
+# STEP 4 - Process Options #
 ############################
 
-if [ "$J_MW_USER_ID" != 0 ] && [ "$J_MW_SUPRESS_WARNING" = "no" ]; then
+if [ "$J_MW_USER_ID" != 0 ] && [ "$J_MW_SUPPRESS_WARNING" = "no" ]; then
     printf "[+] This script should be ran with root privileges.\n\n";
 fi
 
