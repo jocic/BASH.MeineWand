@@ -268,9 +268,7 @@ testGetSetFunctions()
 # Include Dependencies #
 ########################
 
-export J_MW_VERSION="1.0.0";
-export J_MW_CONF_DIR="meine-wand";
-export J_MW_CONF_FILE="basic.conf";
+. "$source_dir/../test-variables.sh";
 
 . "$source_dir/../../source/includes/configuration.sh";
 

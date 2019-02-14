@@ -58,7 +58,7 @@ testShortVariant()
     
     # Logic
     
-    valid_output=$(printf "Meine Wand 1.0.0\n%s" "$valid_output");
+    valid_output=$(printf "Meine Wand $J_MW_VERSION\n%s" "$valid_output");
     
     assertEquals "$valid_output" "$script_output";
     
@@ -84,7 +84,7 @@ testLongVariant()
     
     # Logic
     
-    valid_output=$(printf "Meine Wand 1.0.0\n%s" "$valid_output");
+    valid_output=$(printf "Meine Wand $J_MW_VERSION\n%s" "$valid_output");
     
     assertEquals "$valid_output" "$script_output";
     
@@ -107,7 +107,7 @@ testLongVariant()
 # Include Dependencies #
 ########################
 
-# DEPENDENCIES GO HERE
+. "$source_dir/test-variables.sh";
 
 ##################
 # Include SHUnit #

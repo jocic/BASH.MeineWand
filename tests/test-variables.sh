@@ -33,56 +33,6 @@
 # Core Variables #
 ##################
 
-source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
-
-#################
-# Primary Tests #
-#################
-
-# Tests output of the script without any parameters provided.
-# 
-# @author: Djordje Jocic <office@djordjejocic.com>
-# @copyright: 2019 MIT License (MIT)
-# @version: 1.0.0
-# 
-# @return integer
-#   It always returns <i>0</i> - SUCCESS.
-
-testCase()
-{
-    # Core Variables
-    
-    local valid_output="[X] You didn't provide any option.";
-    local script_output=$(bash "$source_dir/../source/meine-wand.sh" \
-        --suppress-warning);
-    
-    # Logic
-    
-    assertEquals "$valid_output" "$script_output";
-    
-    return 0;
-}
-
-###################
-# Secondary Tests #
-###################
-
-# SECONDARY TESTS GO HERE
-
-##################
-# Tertiary Tests #
-##################
-
-# TERTIARY TESTS GO HERE
-
-########################
-# Include Dependencies #
-########################
-
-. "$source_dir/test-variables.sh";
-
-##################
-# Include SHUnit #
-##################
-
-. "$source_dir/../other/shunit2/executable";
+export J_MW_VERSION="1.0.0";
+export J_MW_CONF_DIR="meine-wand";
+export J_MW_CONF_FILE="basic.conf";
